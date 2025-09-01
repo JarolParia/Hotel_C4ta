@@ -3,12 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Hotel C4TA Login" Height="600" Width="800"
         WindowStartupLocation="CenterScreen"
-        Background="#4B0082" ResizeMode="CanMinimize">
+        Background="#4B0082" ResizeMode="NoResize">
     <Grid>
         <Border Background="White" CornerRadius="20" 
                 Width="350" Height="400"
                 VerticalAlignment="Center" HorizontalAlignment="Center" 
-                Padding="10" >
+                >
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Height="380" >
 
                 <!-- Logo -->
@@ -23,53 +23,86 @@
                                Margin="0,15,0,20" 
                                TextAlignment="Center" Height="21" Width="183"/>
                 </StackPanel>
-                
-                <TextBox x:Name="txtUsername"
-                         Height="35"
-                         BorderBrush="#DDD"
-                         BorderThickness="1"
-                         Padding="8" Width="199"
-                         >
-                    <TextBox.Style>
-                        <Style TargetType="{x:Type TextBox}">
-                            <Setter Property="Foreground" Value="Gray"/>
-                            <Setter Property="Text" Value="USERNAME"/>
-                            <Style.Triggers>
-                                <Trigger Property="IsKeyboardFocused" Value="True">
-                                    <Setter Property="Foreground" Value="Black"/>
-                                    <Setter Property="Text" Value=""/>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </TextBox.Style>
-                </TextBox>
+
+                <Border BorderBrush="#9370DB" BorderThickness="2" CornerRadius="10" Width="215" Height="40">
+                    <TextBox x:Name="txtUsername"
+             BorderThickness="0" 
+                        Padding="8"
+             Width="205" Height="30"
+             VerticalContentAlignment="Center">
+                        <TextBox.Style>
+                            <Style TargetType="{x:Type TextBox}">
+                                <Setter Property="Foreground" Value="Gray"/>
+                                <Setter Property="Text" Value="USERNAME"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsKeyboardFocused" Value="True">
+                                        <Setter Property="Foreground" Value="Black"/>
+                                        <Setter Property="Text" Value=""/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBox.Style>
+                    </TextBox>
+                </Border>
+
 
                 <!-- Username -->
 
                 <!-- Password -->
-                <PasswordBox x:Name="txtPassword"
-                             Margin="0,10"
-                             Height="35"
-                             BorderBrush="#DDD"
-                             BorderThickness="1"
-                             Padding="8"
-                             />
+                <Border BorderBrush="#9370DB" BorderThickness="2" CornerRadius="10" Width="215" Height="40" Margin="0,30,0,30">
+                    <Grid>
+                        <!-- Placeholder -->
+                        <!-- No bloquea clics -->
+
+                        <!-- PasswordBox -->
+                        <PasswordBox x:Name="txtPassword"
+                     BorderThickness="0"
+                     Padding="8"
+                     Width="205" Height="30"
+                     VerticalContentAlignment="Center"
+                     PasswordChanged="txtPassword_PasswordChanged"
+                     GotFocus="txtPassword_GotFocus"
+                     LostFocus="txtPassword_LostFocus"/>
+                        <TextBlock x:Name="PlaceholderPassword"
+                   Text="PASSWORD"
+                   Foreground="Gray"
+                   VerticalAlignment="Center"
+                   Margin="8,0,0,0"
+                   IsHitTestVisible="False"/>
+                    </Grid>
+                </Border>
+
                 <Button Content="JOIN" 
-                        Click="Join_Click"
-                        Background="#9370DB" 
-                        Foreground="White"
-                        FontWeight="Bold"
-                        Height="40"
-                        BorderThickness="0"
-                        >
+                    Click="Join_Click"
+                    Background="#9370DB" 
+                    Foreground="White"
+                    FontWeight="Bold"
+                    Height="40"
+                    BorderThickness="0" Width="109"
+                    Cursor="Hand">      
                     <Button.Template>
                         <ControlTemplate TargetType="{x:Type Button}">
-                            <Border CornerRadius="10" Background="{TemplateBinding Background}">
+                            <Border x:Name="border"
+                    CornerRadius="10"
+                    Background="{TemplateBinding Background}">
                                 <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Border>
+                            <ControlTemplate.Triggers>
+                                <!-- Hover -->
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="border" Property="Background" Value="#7B68EE"/>
+                                    <!-- más claro -->
+                                </Trigger>
+                                <!-- Click (Pressed) -->
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter TargetName="border" Property="Background" Value="#4B0082"/>
+                                    <!-- más oscuro -->
+                                </Trigger>
+                            </ControlTemplate.Triggers>
                         </ControlTemplate>
                     </Button.Template>
                 </Button>
+
 
                 <!-- Botón -->
             </StackPanel>

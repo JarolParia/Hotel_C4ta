@@ -27,5 +27,29 @@ namespace Hotel_C4ta
             // Lógica de autenticación aquí
             // Ejemplo: MessageBox.Show("Botón JOIN pulsado");
         }
+
+        private void txtPassword_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            UpdatePasswordPlaceholder();
+        }
+
+        private void txtPassword_GotFocus(object sender, RoutedEventArgs e)
+        {
+            PlaceholderPassword.Visibility = Visibility.Hidden;
+        }
+
+        private void txtPassword_LostFocus(object sender, RoutedEventArgs e)
+        {
+            UpdatePasswordPlaceholder();
+        }
+
+        private void UpdatePasswordPlaceholder()
+        {
+            if (string.IsNullOrEmpty(txtPassword.Password) && !txtPassword.IsFocused)
+                PlaceholderPassword.Visibility = Visibility.Visible;
+            else
+                PlaceholderPassword.Visibility = Visibility.Hidden;
+        }
+
     }
 }
