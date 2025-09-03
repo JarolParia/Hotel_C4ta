@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Hotel_C4ta.View.ReceptionistViews.Sections;
 
 namespace Hotel_C4ta.View.ReceptionistViews
 {
@@ -22,14 +23,49 @@ namespace Hotel_C4ta.View.ReceptionistViews
         public ReceptionistPanel()
         {
             InitializeComponent();
+            ContentArea.Content = new DashboardContent();///Show dashboard by default
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Dashboard_Click(object sender, RoutedEventArgs e)
         {
-
+            ContentArea.Content = new DashboardContent();
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private void RegisterClient_Click(object sender, RoutedEventArgs e)
+        {
+            ContentArea.Content = new RegisterClientsContent();
+        }
+
+        private void Search_UpdaeClient_Click(object sender, RoutedEventArgs e)
+        {
+            ContentArea.Content = new Search_UpdateClientContent();
+        }
+
+        private void RegisterCheckIn_Click(object sender, RoutedEventArgs e)
+        {
+            ContentArea.Content = new RegisterCheckInContent();
+        }
+        private void RegisterCheckOut_Click(object sender, RoutedEventArgs e)
+        {
+            ContentArea.Content = new RegisterCheckOutContent();
+        }
+
+        private void Search_UpdateBooking_Click(object sender, RoutedEventArgs e)
+        {
+            ContentArea.Content = new Search_UpdateBookingContent();
+        }
+
+        private void CreateBooking_Click(object sender, RoutedEventArgs e)
+        {
+            ContentArea.Content = new CreateBookingContent();
+        }
+
+        private void SeeAllBills_Click(object sender, RoutedEventArgs e)
+        {
+            ContentArea.Content = new SeeAllBillsContent();
+        }
+
+        private void LogOut_Click(object sender, RoutedEventArgs e)
         {
 
         }

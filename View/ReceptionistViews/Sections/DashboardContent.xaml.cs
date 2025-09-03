@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace Hotel_C4ta.View.ReceptionistViews.Sections
 {
     /// <summary>
-    /// Lógica de interacción para GenerateBillsContent.xaml
+    /// Lógica de interacción para DashboardContent.xaml
     /// </summary>
-    public partial class GenerateBillsContent : UserControl
+    public partial class DashboardContent : UserControl
     {
-        public GenerateBillsContent()
+        public DashboardContent()
         {
             InitializeComponent();
         }
