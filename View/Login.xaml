@@ -6,10 +6,10 @@
         Background="#4B0082" ResizeMode="NoResize">
     <Grid>
         <Border Background="White" CornerRadius="20" 
-                Width="350" Height="400"
-                VerticalAlignment="Center" HorizontalAlignment="Center" 
-                >
-            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Height="380" >
+                Width="350" Height="450"
+                VerticalAlignment="Center" HorizontalAlignment="Center">
+
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Height="420" >
 
                 <!-- Logo -->
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
@@ -20,91 +20,66 @@
                                FontSize="15"
                                FontFamily="Montserrat"
                                FontWeight="Medium" 
-                               Margin="0,15,0,20" 
+                               Margin="0,15,0,30" 
                                TextAlignment="Center" Height="21" Width="183"/>
                 </StackPanel>
 
+                <!-- Username -->
+                <Label Content="Username:" 
+                       FontWeight="Bold" 
+                       Foreground="Gray" 
+                       Margin="0,0,0,5"/>
                 <Border BorderBrush="#9370DB" BorderThickness="2" CornerRadius="10" Width="215" Height="40">
                     <TextBox x:Name="txtUsername"
-             BorderThickness="0" 
-                        Padding="8"
-             Width="205" Height="30"
-             VerticalContentAlignment="Center">
-                        <TextBox.Style>
-                            <Style TargetType="{x:Type TextBox}">
-                                <Setter Property="Foreground" Value="Gray"/>
-                                <Setter Property="Text" Value="USERNAME"/>
-                                <Style.Triggers>
-                                    <Trigger Property="IsKeyboardFocused" Value="True">
-                                        <Setter Property="Foreground" Value="Black"/>
-                                        <Setter Property="Text" Value=""/>
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </TextBox.Style>
-                    </TextBox>
+                             BorderThickness="0" 
+                             Padding="8"
+                             Width="205" Height="30"
+                             VerticalContentAlignment="Center"/>
                 </Border>
-
-
-                <!-- Username -->
 
                 <!-- Password -->
-                <Border BorderBrush="#9370DB" BorderThickness="2" CornerRadius="10" Width="215" Height="40" Margin="0,30,0,30">
-                    <Grid>
-                        <!-- Placeholder -->
-                        <!-- No bloquea clics -->
-
-                        <!-- PasswordBox -->
-                        <PasswordBox x:Name="txtPassword"
-                     BorderThickness="0"
-                     Padding="8"
-                     Width="205" Height="30"
-                     VerticalContentAlignment="Center"
-                     PasswordChanged="txtPassword_PasswordChanged"
-                     GotFocus="txtPassword_GotFocus"
-                     LostFocus="txtPassword_LostFocus"/>
-                        <TextBlock x:Name="PlaceholderPassword"
-                   Text="PASSWORD"
-                   Foreground="Gray"
-                   VerticalAlignment="Center"
-                   Margin="8,0,0,0"
-                   IsHitTestVisible="False"/>
-                    </Grid>
+                <Label Content="Password:" 
+                       FontWeight="Bold" 
+                       Foreground="Gray" 
+                       Margin="0,20,0,5"/>
+                <Border BorderBrush="#9370DB" BorderThickness="2" CornerRadius="10" Width="215" Height="40">
+                    <PasswordBox x:Name="txtPassword"
+                                 BorderThickness="0"
+                                 Padding="8"
+                                 Width="205" Height="30"
+                                 VerticalContentAlignment="Center"/>
                 </Border>
 
+                <!-- Botón -->
                 <Button Content="JOIN" 
-                    Click="Join_Click"
-                    Background="#9370DB" 
-                    Foreground="White"
-                    FontWeight="Bold"
-                    Height="40"
-                    BorderThickness="0" Width="109"
-                    Cursor="Hand">      
+                        Click="Join_Click"
+                        Background="#9370DB" 
+                        Foreground="White"
+                        FontWeight="Bold"
+                        Height="40"
+                        BorderThickness="0" Width="109"
+                        Cursor="Hand"
+                        Margin="0,30,0,0">
                     <Button.Template>
                         <ControlTemplate TargetType="{x:Type Button}">
                             <Border x:Name="border"
-                    CornerRadius="10"
-                    Background="{TemplateBinding Background}">
+                                    CornerRadius="10"
+                                    Background="{TemplateBinding Background}">
                                 <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Border>
                             <ControlTemplate.Triggers>
                                 <!-- Hover -->
                                 <Trigger Property="IsMouseOver" Value="True">
                                     <Setter TargetName="border" Property="Background" Value="#7B68EE"/>
-                                    <!-- más claro -->
                                 </Trigger>
                                 <!-- Click (Pressed) -->
                                 <Trigger Property="IsPressed" Value="True">
                                     <Setter TargetName="border" Property="Background" Value="#4B0082"/>
-                                    <!-- más oscuro -->
                                 </Trigger>
                             </ControlTemplate.Triggers>
                         </ControlTemplate>
                     </Button.Template>
                 </Button>
-
-
-                <!-- Botón -->
             </StackPanel>
         </Border>
     </Grid>

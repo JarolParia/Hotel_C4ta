@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Hotel_C4ta.Controller
+namespace Hotel_C4ta.Model
 {
-    class LoginController
+    class ReceptionistModel : UserModel
     {
+        public string _Code { get; set; } = "";
+
     }
 }

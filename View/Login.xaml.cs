@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using Microsoft.Data.SqlClient;
+using System.Data.Common;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -8,6 +10,11 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Hotel_C4ta.Model;
+using Hotel_C4ta.Controller;
+using Hotel_C4ta.View.AdminViews;
+using Hotel_C4ta.View.ReceptionistViews;
+using System.Windows.Media.Animation;
 
 namespace Hotel_C4ta
 {
@@ -16,40 +23,44 @@ namespace Hotel_C4ta
     /// </summary>
     public partial class MainWindow : Window
     {
+        private readonly AuthController _authController = new AuthController();
         public MainWindow()
         {
             InitializeComponent();
-        }
 
+        }
+  
 
         private void Join_Click(object sender, RoutedEventArgs e)
         {
-            // Lógica de autenticación aquí
-            // Ejemplo: MessageBox.Show("Botón JOIN pulsado");
+            string username = txtUsername.Text;
+            string password = txtPassword.Password;
+
+            string? UserType = _authController.HandleLogin(username, password);
+
+            if (UserType == "Admin")
+            {
+
+                AdminPanel admin = new AdminPanel();
+                admin.Show();
+                this.Close();
+            }
+            else if (UserType == "Recepcionist")
+            {
+                ReceptionistPanel recep = new ReceptionistPanel();
+                recep.Show();
+                this.Close();
+            }
+            else { 
+            
+                MessageBox.Show("Invalid credentials, please try again.", "Login Failed", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
+         
         }
 
-        private void txtPassword_PasswordChanged(object sender, RoutedEventArgs e)
-        {
-            UpdatePasswordPlaceholder();
-        }
-
-        private void txtPassword_GotFocus(object sender, RoutedEventArgs e)
-        {
-            PlaceholderPassword.Visibility = Visibility.Hidden;
-        }
-
-        private void txtPassword_LostFocus(object sender, RoutedEventArgs e)
-        {
-            UpdatePasswordPlaceholder();
-        }
-
-        private void UpdatePasswordPlaceholder()
-        {
-            if (string.IsNullOrEmpty(txtPassword.Password) && !txtPassword.IsFocused)
-                PlaceholderPassword.Visibility = Visibility.Visible;
-            else
-                PlaceholderPassword.Visibility = Visibility.Hidden;
-        }
+      
+       
 
     }
 }

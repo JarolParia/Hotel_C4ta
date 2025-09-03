@@ -6,13 +6,12 @@ using System.Threading.Tasks;
 
 namespace Hotel_C4ta.Model
 {
-    abstract class UserModel
+    class ClientModel
     {
-        public int _Id { get; set; }
+        public string _DNI { get; set; } = "";
         public string _Name { get; set; } = "";
-
         public string _Email { get; set; } = "";
 
-        public string _Password { get; set; } = "";
+        public string _Phone { get; set; } = "";
     }
 }
