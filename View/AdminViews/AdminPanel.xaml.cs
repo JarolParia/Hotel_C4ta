@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Hotel_C4ta.View.AdminViews;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,25 @@ namespace Hotel_C4ta.View.AdminViews
         public AdminPanel()
         {
             InitializeComponent();
+            ContentArea.Content = new DashboardControl();///Show dashboard by default
         }
+
+        private void Dashboard_Click(object sender, RoutedEventArgs e)
+        {
+            ContentArea.Content = new DashboardControl();
+        }
+
+        private void UserManagement_Click(object sender, RoutedEventArgs e)
+        {
+            ContentArea.Content = new UserManagementControl();
+        }
+
+        private void RoomManagement_Click(object sender, RoutedEventArgs e)
+        {
+            ContentArea.Content = new RoomManagementControl();
+        }
+
+
+
     }
 }
