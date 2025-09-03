@@ -5,8 +5,198 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Hotel_C4ta.View.ReceptionistViews"
         mc:Ignorable="d"
-        Title="ReceptionistPanel" Height="450" Width="800">
-    <Grid>
-        
+        Title="ReceptionistPanel" Height="600" Width="800"
+        WindowStartupLocation="CenterScreen"
+        Background="White">
+
+    <Window.Resources>
+        <!-- Estilo para links del sidebar -->
+        <Style x:Key="SidebarLinkButton" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <!-- Texto negro por defecto -->
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="8,4"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                CornerRadius="6"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Left"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <!-- Hover -->
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#6A1B9A"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+                <!-- Presionado -->
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="#4A0E6E"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="10">
+        <!-- split the window in two -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="65"/>
+            <!-- header with logo and user -->
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <DockPanel Grid.Row="0" LastChildFill="True">
+            <!-- Logo -->
+            <Image Source="/Hotel_C4ta;component/Resources/LogoHotel.jpg" 
+                   Width="226" Height="83" Margin="-20,0,0,0"/>
+
+            <!-- Name and LogOut -->
+            <StackPanel Orientation="Horizontal" 
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Margin="0,0,55,0">
+                <Label x:Name="lblUsuario" 
+                       Content="Pepito Pérez"  
+                       VerticalAlignment="Center"
+                       Margin="0,0,10,0"
+                       FontSize="16" 
+                       FontWeight="Bold"/>
+                <Button Content="Log Out" 
+                        Background="#6A1B9A"
+                        Foreground="White"
+                        Padding="10,5"
+                        FontSize="14"
+                        BorderThickness="0">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="{TemplateBinding Background}"
+                                    CornerRadius="8"
+                                    Padding="{TemplateBinding Padding}">
+                                <ContentPresenter HorizontalAlignment="Center" 
+                                                  VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+            </StackPanel>
+        </DockPanel>
+
+        <!-- Contenedor principal -->
+        <Border Grid.Row="1"
+                Background="White" 
+                CornerRadius="12"
+                Padding="10"
+                SnapsToDevicePixels="True"
+                Margin="50,5,50,17">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="10"
+                                  ShadowDepth="2"
+                                  Opacity="0.3"/>
+            </Border.Effect>
+
+            <Grid Margin="13,0,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="220"/>
+                    <!-- Sidebar -->
+                    <ColumnDefinition Width="2"/>
+                    <!-- Línea -->
+                    <ColumnDefinition/>
+                    <!-- Contenido -->
+                </Grid.ColumnDefinitions>
+
+                <!-- Sidebar -->
+                <StackPanel Grid.Column="0" Margin="10,0,10,-5">
+
+                    <!-- Dashboard -->
+                    <Button Content="🗂 Dashboard"
+                            Style="{StaticResource SidebarLinkButton}"
+                            Margin="13,10,0,0"
+                            FontWeight="Bold"/>
+
+                    <!-- Clients -->
+                    <StackPanel Margin="10,5,0,0">
+                        <TextBlock Text="👤 Clients" FontSize="14" FontWeight="Bold" Margin="10 10 0 5"/>
+
+                        <Button Content="Register Clients"     
+                                Style="{StaticResource SidebarLinkButton}" 
+                                Width="117" 
+                                Click="Button_Click" 
+                                Margin="15 5 0 3"/>
+
+                        <Button Content="Search/Update Clients"
+                                Style="{StaticResource SidebarLinkButton}" 
+                                Click="Button_Click_1" 
+                                Margin="15 5 0 3"/>
+                    </StackPanel>
+
+                    <!-- Bookings -->
+                    <TextBlock Text="📅 Bookings" FontSize="14" FontWeight="Bold" Margin="10 20 0 5"/>
+
+                    <Button Content="Create Booking"
+                            Style="{StaticResource SidebarLinkButton}"
+                            Margin="25,5,0,0"/>
+
+                    <Button Content="Search/Update Booking"
+                            Style="{StaticResource SidebarLinkButton}"
+                            Margin="25,5,0,0"/>
+
+                    <!-- Check-in/Check-out -->
+                    <TextBlock Text="☑ Check- In / Check- Out" FontSize="14" FontWeight="Bold" Margin="10 20 0 5"/>
+
+                    <Button Content="Register Check-In"
+                            Style="{StaticResource SidebarLinkButton}"
+                            Margin="25,5,0,0"/>
+
+                    <Button Content="Register Check-Out"
+                            Style="{StaticResource SidebarLinkButton}"
+                            Margin="25,5,0,0"/>
+
+                    <!-- Bills -->
+                    <TextBlock Text="💲 Bills" FontSize="14" FontWeight="Bold" Margin="10 20 0 5"/>
+
+                    <Button Content="Generate Bills"
+                            Style="{StaticResource SidebarLinkButton}"
+                            Margin="25,5,0,0"/>
+
+                    <Button Content="See All Bills"
+                            Style="{StaticResource SidebarLinkButton}"
+                            Margin="25,5,0,0"/>
+                </StackPanel>
+
+                <!-- Línea divisoria -->
+                <Border Grid.Column="1"
+                        Background="#DDDDDD"
+                        Margin="0,-10,0,-10"/>
+
+                <!-- Contenido principal -->
+                <StackPanel Grid.Column="2" Margin="20,20,20,20">
+                    <TextBlock Text="Dashboard" 
+                               FontSize="30"
+                               FontWeight="Bold"
+                               Margin="0,0,0,10"/>
+
+                    <!-- Tarjeta 1 -->
+                    <Border Background="#EEE"
+                            CornerRadius="10"
+                            Height="120"
+                            Margin="0,0,0,10"/>
+
+                    <!-- Tarjeta 2 -->
+                    <Border Background="#EEE"
+                            CornerRadius="10"
+                            Height="120"/>
+                </StackPanel>
+            </Grid>
+        </Border>
     </Grid>
 </Window>
