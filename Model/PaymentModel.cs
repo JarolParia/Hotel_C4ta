@@ -8,10 +8,10 @@ namespace Hotel_C4ta.Model
 {
     class PaymentModel
     {
-        public int _Id { get; set; }
-        public DateTime _PaymentDate { get; set; }
-        public double _Amount { get; set; }
-        public string _PaymentMethod { get; set; } = "";
-        public int _IdBill { get; set; }
+        public int PaymentID { get; set; }
+        public DateTime PaymentDate { get; set; }
+        public double Amount { get; set; }
+        public string PaymentMethod { get; set; }
+        public int BillID { get; set; }
     }
 }

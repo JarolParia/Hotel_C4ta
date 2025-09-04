@@ -8,6 +8,6 @@ namespace Hotel_C4ta.Model
 {
     class AdminModel : UserModel
     {
-        public string _Rol { get; set; } = "";
+        public string Rol { get; set; }
     }
 }

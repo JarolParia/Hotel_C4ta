@@ -8,15 +8,13 @@ using System.Threading.Tasks;
 
 namespace Hotel_C4ta.Controller
 {
-    public class AuthController
+    public class AuthController : DBContext
     {
-        private readonly DatabaseConnection _db = new DatabaseConnection();
-
-
         public string? HandleLogin(string username, string password) {
-            using (SqlConnection conn = _db.OpenConnection()) { 
-            
-            string query = @"
+            using (SqlConnection conn = new(_ConnectionString))
+            {
+
+                string query = @"
                 SELECT 'Admin' AS UserType
                 FROM Administrator
                 WHERE Names = @user AND Password_ = @pass
@@ -25,7 +23,7 @@ namespace Hotel_C4ta.Controller
                 FROM Recepcionist
                 WHERE Names = @user AND Password_ = @pass
             ";
-               SqlCommand cmd = new SqlCommand(query, conn);
+                SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@user", username);
                 cmd.Parameters.AddWithValue("@pass", password);
 

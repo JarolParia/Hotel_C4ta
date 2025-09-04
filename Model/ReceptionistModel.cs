@@ -8,7 +8,6 @@ namespace Hotel_C4ta.Model
 {
     class ReceptionistModel : UserModel
     {
-        public string _Code { get; set; } = "";
-
+        public string Code { get; set; }
     }
 }
