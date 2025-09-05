@@ -14,7 +14,7 @@ namespace Hotel_C4ta.Controller
 
         public DBContext()
         {
-           _ConnectionString = ConfigurationManager.ConnectionStrings["HotelC4ta"].ConnectionString;
+           _ConnectionString = ConfigurationManager.ConnectionStrings["HotelC4TA"].ConnectionString;
         }
     }
 }

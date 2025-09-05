@@ -9,7 +9,7 @@ namespace Hotel_C4ta.Model
     abstract class UserModel
     {
         public int ID { get; set; }
-        public string Name { get; set; }
+        public string FullName { get; set; }
         public string Email { get; set; }
         public string PasswordHashed { get; set; }
     }

@@ -11,6 +11,6 @@ namespace Hotel_C4ta.Model
         public int BillID { get; set; }
         public DateTime IssueDate { get; set; }
         public double TotalAmount { get; set; }
-        public int IdBooking { get; set; }
+        public int BookingID { get; set; }
     }
 }

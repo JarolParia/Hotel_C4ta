@@ -9,7 +9,7 @@ namespace Hotel_C4ta.Model
     class RoomModel
     {
         public int RoomID { get; set; }
-        public int Floor { get; set; }
+        public int RoomFloor { get; set; }
         public string RoomStatus { get; set; }
         public string RoomType { get; set; }
         public int Capacity { get; set; }
