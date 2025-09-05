@@ -76,7 +76,7 @@
                         Foreground="White"
                         Padding="10,5"
                         FontSize="14"
-                        BorderThickness="0" Click="Button_Click">
+                        BorderThickness="0" Click="LogOut_Click">
                     <Button.Template>
                         <ControlTemplate TargetType="Button">
                             <Border Background="{TemplateBinding Background}"
@@ -169,7 +169,7 @@
                     <Button Content="See All Bills"
                             Style="{StaticResource SidebarLinkButton}"
                             Margin="25,5,0,0"
-                            Click="Button_Click"/>
+                            Click="SeeAllBills_Click"/>
                 </StackPanel>
 
                 <!-- Línea divisoria -->

@@ -18,9 +18,9 @@ namespace Hotel_C4ta.View.ReceptionistViews.Sections
     /// <summary>
     /// Lógica de interacción para RegisterCheck_inContent.xaml
     /// </summary>
-    public partial class RegisterCheck_inContent : UserControl
+    public partial class RegisterCheckInContent : UserControl
     {
-        public RegisterCheck_inContent()
+        public RegisterCheckInContent()
         {
             InitializeComponent();
         }

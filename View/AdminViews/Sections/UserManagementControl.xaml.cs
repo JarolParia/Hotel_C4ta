@@ -2,34 +2,35 @@
 using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Data;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
-namespace Hotel_C4ta.View.AdminViews
+namespace Hotel_C4ta.View.AdminViews.Sections
 {
-    /// <summary>
-    /// Lógica de interacción para UserManagementControl.xaml
-    /// </summary>
     public partial class UserManagementControl : UserControl
     {
         public UserManagementControl()
         {
             InitializeComponent();
-            LoadUsers();
+            CargarUsuarios();
         }
-        private void LoadUsers()
+
+        private void BtnRegistrar_Click(object sender, RoutedEventArgs e)
         {
-            var users = new List<dynamic>(); // usamos dinámico para juntar admins y recepcionistas
+            var form = new LoggerUsersSection();
+            form.UsuarioGuardado += () =>
+            {
+                CargarUsuarios();
+                SectionRegistrar.Content = null; // Limpia después de guardar
+            };
+
+            SectionRegistrar.Content = form;
+        }
+
+        private void CargarUsuarios()
+        {
+            var usuarios = new List<UsuarioViewModel>();
             var db = new DatabaseConnection();
 
             using (var conn = db.OpenConnection())
@@ -37,49 +38,100 @@ namespace Hotel_C4ta.View.AdminViews
                 try
                 {
                     // Cargar administradores
-                    string adminQuery = "SELECT Id, Names, Rol FROM Administrator";
-                    using (var cmd = new SqlCommand(adminQuery, conn))
+                    string queryAdmins = "SELECT Id, Names, Rol AS ExtraInfo FROM Administrator";
+                    using (var cmd = new SqlCommand(queryAdmins, conn))
                     using (var reader = cmd.ExecuteReader())
                     {
                         while (reader.Read())
                         {
-                            users.Add(new
+                            usuarios.Add(new UsuarioViewModel
                             {
                                 _Id = reader.GetInt32(0),
                                 _Name = reader.GetString(1),
-                                ExtraInfo = reader.GetString(2) // Rol
+                                ExtraInfo = reader.GetString(2)
                             });
                         }
                     }
 
                     // Cargar recepcionistas
-                    string recepQuery = "SELECT Id, Names, Code FROM Recepcionist";
-                    using (var cmd = new SqlCommand(recepQuery, conn))
+                    string queryRecep = "SELECT Id, Names, Code AS ExtraInfo FROM Recepcionist";
+                    using (var cmd = new SqlCommand(queryRecep, conn))
                     using (var reader = cmd.ExecuteReader())
                     {
                         while (reader.Read())
                         {
-                            users.Add(new
+                            usuarios.Add(new UsuarioViewModel
                             {
                                 _Id = reader.GetInt32(0),
                                 _Name = reader.GetString(1),
-                                ExtraInfo = reader.GetString(2) // Código
+                                ExtraInfo = reader.GetString(2)
                             });
                         }
                     }
+
+                    UsersGrid.ItemsSource = usuarios;
                 }
                 catch (Exception ex)
                 {
-                    System.Windows.MessageBox.Show("Error al cargar usuarios: " + ex.Message);
+                    MessageBox.Show("Error al cargar usuarios: " + ex.Message);
                 }
                 finally
                 {
                     db.CloseConnection();
                 }
             }
-
-            UsersGrid.ItemsSource = users;
         }
 
+        private void EditUser_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button btn && btn.Tag is int userId)
+            {
+                var formEditar = new LoggerUsersSection(userId);
+                formEditar.UsuarioGuardado += CargarUsuarios; // refrescar cuando guarde
+                SectionRegistrar.Content = formEditar;
+            }
+        }
+
+
+        private void DeleteUser_Click(object sender, RoutedEventArgs e)
+        {
+            var id = (sender as Button)?.Tag?.ToString();
+            if (MessageBox.Show("¿Eliminar este usuario?", "Confirmar", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            {
+                var db = new DatabaseConnection();
+                using (var conn = db.OpenConnection())
+                {
+                    try
+                    {
+                        string query = $"DELETE FROM Administrator WHERE Id=@Id; DELETE FROM Recepcionist WHERE Id=@Id;";
+                        using (var cmd = new SqlCommand(query, conn))
+                        {
+                            cmd.Parameters.AddWithValue("@Id", id);
+                            cmd.ExecuteNonQuery();
+                        }
+
+                        CargarUsuarios();
+                        MessageBox.Show("Usuario eliminado.");
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error al eliminar usuario: " + ex.Message);
+                    }
+                    finally
+                    {
+                        db.CloseConnection();
+                    }
+                }
+            }
+        }
+    }
+
+    // Modelo de usuario para mostrar en el DataGrid
+    public class UsuarioViewModel
+    {
+        public int _Id { get; set; }
+        public string _Name { get; set; }
+        public string ExtraInfo { get; set; }
     }
 }
+
