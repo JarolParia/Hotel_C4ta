@@ -22,9 +22,12 @@ namespace Hotel_C4ta.View.ReceptionistViews.Sections
     /// </summary>
     public partial class RegisterCheckInContent : UserControl
     {
+<<<<<<< HEAD
 
         private DatabaseConnection _db = new DatabaseConnection();
         private int _selectedBookingId = 0;
+=======
+>>>>>>> 89905a425d42465c321a2ff71423c49327930442
         public RegisterCheckInContent()
         {
             InitializeComponent();
