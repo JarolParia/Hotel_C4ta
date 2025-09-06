@@ -9,8 +9,9 @@ namespace Hotel_C4ta.Model
     class BillModel
     {
         public int BillID { get; set; }
-        public DateTime IssueDate { get; set; }
-        public double TotalAmount { get; set; }
+        public DateTime IssueDate { get; set; } = DateTime.Today; // Current by Default
+        public decimal TotalAmount { get; set; }
+        public byte[] PdfFile { get; set; }
         public int BookingID { get; set; }
     }
 }

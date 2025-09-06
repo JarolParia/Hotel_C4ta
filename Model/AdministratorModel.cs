@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Hotel_C4ta.Model
 {
-    class AdminModel : UserModel
+    class AdministratorModel : UserModel
     {
-        public string Rol { get; set; }
+        public string Rol { get; set; } // Admin by Default
     }
 }
