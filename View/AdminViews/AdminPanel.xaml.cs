@@ -1,4 +1,9 @@
+<<<<<<< HEAD
+﻿using Hotel_C4ta.View.AdminViews.Sections;
+=======
 ﻿using Hotel_C4ta.View.AdminViews;
+using Hotel_C4ta.View.AdminViews.Sections;
+>>>>>>> 89905a425d42465c321a2ff71423c49327930442
 using System;
 using System.Collections.Generic;
 using System.Linq;

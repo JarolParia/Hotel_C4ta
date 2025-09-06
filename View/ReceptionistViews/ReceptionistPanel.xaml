@@ -46,7 +46,7 @@
         </Style>
     </Window.Resources>
 
-    <Grid Margin="10">
+    <Grid >
         <!-- split the window in two -->
         <Grid.RowDefinitions>
             <RowDefinition Height="65"/>
@@ -76,7 +76,7 @@
                         Foreground="White"
                         Padding="10,5"
                         FontSize="14"
-                        BorderThickness="0">
+                        BorderThickness="0" Click="LogOut_Click">
                     <Button.Template>
                         <ControlTemplate TargetType="Button">
                             <Border Background="{TemplateBinding Background}"
@@ -97,7 +97,7 @@
                 CornerRadius="12"
                 Padding="10"
                 SnapsToDevicePixels="True"
-                Margin="50,5,50,17">
+                Margin="10,5,10,17">
             <Border.Effect>
                 <DropShadowEffect BlurRadius="10"
                                   ShadowDepth="2"
@@ -121,7 +121,8 @@
                     <Button Content="🗂 Dashboard"
                             Style="{StaticResource SidebarLinkButton}"
                             Margin="13,10,0,0"
-                            FontWeight="Bold"/>
+                            FontWeight="Bold"
+                            Click="Dashboard_Click"/>
 
                     <!-- Clients -->
                     <StackPanel Margin="10,5,0,0">
@@ -130,12 +131,12 @@
                         <Button Content="Register Clients"     
                                 Style="{StaticResource SidebarLinkButton}" 
                                 Width="117" 
-                                Click="Button_Click" 
-                                Margin="15 5 0 3"/>
+                                Margin="15 5 0 3"
+                                Click="RegisterClient_Click"/>
 
                         <Button Content="Search/Update Clients"
                                 Style="{StaticResource SidebarLinkButton}" 
-                                Click="Button_Click_1" 
+                                Click="Search_UpdaeClient_Click" 
                                 Margin="15 5 0 3"/>
                     </StackPanel>
 
@@ -144,33 +145,34 @@
 
                     <Button Content="Create Booking"
                             Style="{StaticResource SidebarLinkButton}"
-                            Margin="25,5,0,0"/>
+                            Margin="25,5,0,0"
+                            Click="CreateBooking_Click"
+                            />
 
                     <Button Content="Search/Update Booking"
                             Style="{StaticResource SidebarLinkButton}"
-                            Margin="25,5,0,0"/>
+                            Margin="25,5,0,0"
+                            Click="Search_UpdateBooking_Click"/>
 
                     <!-- Check-in/Check-out -->
                     <TextBlock Text="☑ Check- In / Check- Out" FontSize="14" FontWeight="Bold" Margin="10 20 0 5"/>
 
                     <Button Content="Register Check-In"
                             Style="{StaticResource SidebarLinkButton}"
-                            Margin="25,5,0,0"/>
+                            Margin="25,5,0,0" Click="RegisterCheckIn_Click"/>
 
                     <Button Content="Register Check-Out"
                             Style="{StaticResource SidebarLinkButton}"
-                            Margin="25,5,0,0"/>
+                            Margin="25,5,0,0"
+                            Click="RegisterCheckOut_Click"/>
 
                     <!-- Bills -->
                     <TextBlock Text="💲 Bills" FontSize="14" FontWeight="Bold" Margin="10 20 0 5"/>
 
-                    <Button Content="Generate Bills"
-                            Style="{StaticResource SidebarLinkButton}"
-                            Margin="25,5,0,0"/>
-
                     <Button Content="See All Bills"
                             Style="{StaticResource SidebarLinkButton}"
-                            Margin="25,5,0,0"/>
+                            Margin="25,5,0,0"
+                            Click="SeeAllBills_Click"/>
                 </StackPanel>
 
                 <!-- Línea divisoria -->
@@ -181,8 +183,7 @@
                 <!-- Contenido principal -->
                 <ContentControl x:Name="ContentArea"
                 Grid.Column="2"
-                Margin="20,20,20,20"
-                />
+                Margin="10 0 0 0"/>
             </Grid>
         </Border>
     </Grid>

@@ -1,12 +1,65 @@
 ﻿<UserControl x:Class="Hotel_C4ta.View.ReceptionistViews.Sections.SeeAllBillsContent"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Hotel_C4ta.View.ReceptionistViews.Sections"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
+             Height="Auto" Width="Auto">
+    <Grid Background="White" Margin="10">
+        <Border Background="#F5F5F5" CornerRadius="10" Padding="14">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!-- Header -->
+                <TextBlock Grid.Row="0"
+                           Text="📑 Facturas y Pagos"
+                           FontSize="20"
+                           FontWeight="Bold"
+                           Foreground="#4B0082"
+                           Margin="0,0,0,10"/>
+
+                <!-- Tabla -->
+                <DataGrid x:Name="BillsGrid"
+                          Grid.Row="1"
+                          AutoGenerateColumns="False"
+                          IsReadOnly="True"
+                          CanUserAddRows="False"
+                          CanUserResizeColumns="False"
+                          AlternatingRowBackground="#EDEDED"
+                          RowHeight="34"
+                          HeadersVisibility="Column">
+                    <DataGrid.ColumnHeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="Background" Value="#4B0082"/>
+                            <Setter Property="Foreground" Value="White"/>
+                            <Setter Property="FontWeight" Value="Bold"/>
+                            <Setter Property="Height" Value="32"/>
+                        </Style>
+                    </DataGrid.ColumnHeaderStyle>
+
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Factura Nº" Binding="{Binding Number}" Width="*"/>
+                        <DataGridTextColumn Header="Fecha" Binding="{Binding IssueDate}" Width="*"/>
+                        <DataGridTextColumn Header="Total" Binding="{Binding Total}" Width="*"/>
+                        <DataGridTextColumn Header="Reserva" Binding="{Binding IdBooking}" Width="*"/>
+                        <DataGridTextColumn Header="Método Pago" Binding="{Binding PaymentMethod}" Width="*"/>
+                        <DataGridTextColumn Header="Monto Pago" Binding="{Binding Amount}" Width="*"/>
+                        <DataGridTextColumn Header="Fecha Pago" Binding="{Binding PaymentDate}" Width="*"/>
+
+                        <!-- Columna para abrir PDF -->
+                        <DataGridTemplateColumn Header="Factura PDF" Width="*">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="📂 Abrir PDF"
+                                            Padding="4,2"
+                                            Click="OpenPdf_Click"
+                                            Tag="{Binding PdfBytes}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </Border>
     </Grid>
 </UserControl>

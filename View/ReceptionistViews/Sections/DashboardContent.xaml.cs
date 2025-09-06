@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace Hotel_C4ta.View.ReceptionistViews.Sections
 {
     /// <summary>
-    /// Lógica de interacción para RegisterCheck_inContent.xaml
+    /// Lógica de interacción para DashboardContent.xaml
     /// </summary>
-    public partial class RegisterCheck_inContent : UserControl
+    public partial class DashboardContent : UserControl
     {
-        public RegisterCheck_inContent()
+        public DashboardContent()
         {
             InitializeComponent();
         }

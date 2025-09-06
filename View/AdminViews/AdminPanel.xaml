@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Admin Panel" Height="600" Width="900"
         WindowStartupLocation="CenterScreen"
-        Background="#EDEDED" ResizeMode="NoResize">
+        Background="#EDEDED" ResizeMode="CanResizeWithGrip">
 
     <Grid>
         <!-- Tarjeta principal con sombra -->

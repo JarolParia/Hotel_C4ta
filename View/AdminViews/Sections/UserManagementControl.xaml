@@ -1,50 +1,126 @@
-﻿<UserControl x:Class="Hotel_C4ta.View.AdminViews.UserManagementControl"
+﻿<UserControl x:Class="Hotel_C4ta.View.AdminViews.Sections.UserManagementControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Hotel_C4ta.View.AdminViews.Sections"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <!-- 🎨 Estilos globales -->
+    <UserControl.Resources>
+
+        <!-- Botones -->
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="#6A0DAD"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="8,4"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border"
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="8"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#8A2BE2"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#4B0082"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- DataGrid (general) -->
+        <Style TargetType="DataGrid">
+            <Setter Property="AutoGenerateColumns" Value="False"/>
+            <Setter Property="IsReadOnly" Value="True"/>
+            <Setter Property="HeadersVisibility" Value="Column"/>
+            <Setter Property="CanUserAddRows" Value="False"/>
+            <Setter Property="RowHeight" Value="35"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="AlternatingRowBackground" Value="#F0F0F0"/>
+            <Setter Property="GridLinesVisibility" Value="None"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="SelectionMode" Value="Single"/>
+            <Setter Property="SelectionUnit" Value="FullRow"/>
+        </Style>
+
+        <!-- Encabezados de DataGrid -->
+        <Style TargetType="DataGridColumnHeader">
+            <Setter Property="Background" Value="#4B0082"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="Height" Value="40"/>
+        </Style>
+
+    </UserControl.Resources>
+
     <Grid Background="White" Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+
         <Border Background="White" CornerRadius="10" Padding="20">
-            
             <StackPanel>
-                <TextBlock Text="👤 Gestión de Usuarios"
-                           FontSize="20"
-                           FontWeight="Bold"
-                           Margin="0,0,0,15"/>
 
-                <DataGrid x:Name="UsersGrid"
-          AutoGenerateColumns="False"
-          IsReadOnly="True"
-          HeadersVisibility="Column"
-          CanUserAddRows="False"
-          Margin="0,10,0,0"
-          RowHeight="35"
-          FontSize="14"
-          AlternatingRowBackground="#F0F0F0"
-          GridLinesVisibility="None"
-          BorderThickness="0"
-          Background="White"
-          SelectionMode="Single"
-          SelectionUnit="FullRow">
+                <!-- 🔹 Título y botón principal -->
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="0,0,0,10">
+                    <TextBlock Text="👤 Gestión de Usuarios"
+                               FontWeight="Bold"
+                               FontSize="20"
+                               VerticalAlignment="Center"/>
+                    <Button Width="200" Height="32"
+                            Margin="20,0,0,0"
+                            Click="BtnRegistrar_Click">
+                        <TextBlock Text="➕ Registrar nuevo usuario"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"/>
+                    </Button>
+                </StackPanel>
 
-                    <!-- Estilo de encabezados -->
-                    <DataGrid.ColumnHeaderStyle>
-                        <Style TargetType="DataGridColumnHeader">
-                            <Setter Property="Background" Value="#4B0082"/>
-                            <Setter Property="Foreground" Value="White"/>
-                            <Setter Property="FontWeight" Value="Bold"/>
-                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                            <Setter Property="Height" Value="40"/>
-                        </Style>
-                    </DataGrid.ColumnHeaderStyle>
+                <!-- 🔹 Sección de registro (con DataGrid estilizado si aplica) -->
+                <ContentControl x:Name="SectionRegistrar" Margin="0,10,0,0"/>
+
+                <!-- 📊 Tabla principal de usuarios -->
+                <DataGrid x:Name="UsersGrid" Margin="0,10,0,0">
 
                     <!-- Columnas -->
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="ID" Binding="{Binding _Id}" Width="60"/>
                         <DataGridTextColumn Header="Nombre" Binding="{Binding _Name}" Width="*"/>
                         <DataGridTextColumn Header="Rol / Código" Binding="{Binding ExtraInfo}" Width="200"/>
+
+                        <!-- Acciones -->
+                        <DataGridTemplateColumn Header="Acciones" Width="170">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                        <Button Content="✏ Editar"
+                                                Background="#BEA9E9"
+                                                Tag="{Binding _Id}"
+                                                Margin="0,0,6,0"
+                                                Click="EditUser_Click"/>
+                                        <Button Content="🗑 Eliminar"
+                                                Background="MediumPurple"
+                                                Tag="{Binding _Id}"
+                                                Click="DeleteUser_Click"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
                     </DataGrid.Columns>
                 </DataGrid>
             </StackPanel>
