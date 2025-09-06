@@ -121,13 +121,14 @@
                     <!-- Dashboard -->
                     <Button Content="🗂 Dashboard"
                             Style="{StaticResource SidebarLinkButton}"
-                            Margin="13,10,0,0"
+                            Margin="0,10,0,5"
                             Click="Dashboard_Click"
-                            FontWeight="Bold"/>
+                            FontWeight="Bold"
+                            FontSize="16"/>
 
                     <!-- Clients -->
                     <StackPanel Margin="10,5,0,0">
-                        <TextBlock Text="👤 Clients" FontSize="14" FontWeight="Bold" Margin="10 10 0 5"/>
+                        <TextBlock Text="👤 Clients" FontSize="14" FontWeight="Bold" Margin="0 10 0 5"/>
 
                         <Button Content="Register Clients"     
                                 Style="{StaticResource SidebarLinkButton}" 
