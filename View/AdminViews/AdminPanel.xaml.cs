@@ -24,7 +24,7 @@ namespace Hotel_C4ta.View.AdminViews
         public AdminPanel()
         {
             InitializeComponent();
-            ContentArea.Content = new DashboardControl();///Show dashboard by default
+            ContentArea.Content = new DashboardControl(); //Show dashboard by default
         }
 
         private void Dashboard_Click(object sender, RoutedEventArgs e)
