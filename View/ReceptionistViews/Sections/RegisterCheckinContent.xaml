@@ -1,12 +1,75 @@
 ﻿<UserControl x:Class="Hotel_C4ta.View.ReceptionistViews.Sections.RegisterCheckInContent"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Hotel_C4ta.View.ReceptionistViews.Sections"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
+             Height="Auto" Width="Auto">
+    <Grid Background="White" Margin="10">
+        <Border Background="#F5F5F5" CornerRadius="10" Padding="14">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- Header -->
+                <TextBlock Grid.Row="0"
+                           Text="📥 Check-In de Huéspedes"
+                           FontSize="20"
+                           FontWeight="Bold"
+                           Foreground="#4B0082"
+                           Margin="0,0,0,10"/>
+
+                <!-- Lista de reservas pendientes -->
+                <DataGrid x:Name="BookingsGrid"
+                          Grid.Row="1"
+                          AutoGenerateColumns="False"
+                          IsReadOnly="True"
+                          SelectionMode="Single"
+                          SelectionUnit="FullRow"
+                          CanUserAddRows="False"
+                          AlternatingRowBackground="#EDEDED"
+                          RowHeight="34"
+                          HeadersVisibility="Column"
+                          SelectionChanged="BookingsGrid_SelectionChanged">
+                    <DataGrid.ColumnHeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="Background" Value="#4B0082"/>
+                            <Setter Property="Foreground" Value="White"/>
+                            <Setter Property="FontWeight" Value="Bold"/>
+                            <Setter Property="Height" Value="30"/>
+                        </Style>
+                    </DataGrid.ColumnHeaderStyle>
+
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="*" CanUserResize="False"/>
+                        <DataGridTextColumn Header="Cliente" Binding="{Binding _DniClient}" Width="*" CanUserResize="False"/>
+                        <DataGridTextColumn Header="Habitación" Binding="{Binding _RoomNumber}" Width="*" CanUserResize="False"/>
+                        <DataGridTextColumn Header="Inicio" Binding="{Binding _StartDate}" Width="*" CanUserResize="False"/>
+                        <DataGridTextColumn Header="Fin" Binding="{Binding _EndDate}" Width="*" CanUserResize="False"/>
+                        <DataGridTextColumn Header="Estado" Binding="{Binding _Status}" Width="*" CanUserResize="False"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <!-- Panel de acción -->
+                <Border Grid.Row="2" Background="White" CornerRadius="8" Padding="12"
+                        BorderBrush="#E0E0E0" BorderThickness="1" Margin="0,10,0,0">
+                    <StackPanel>
+                        <TextBlock Text="Confirmar Check-In" FontSize="16" FontWeight="Bold"
+                                   Foreground="#4B0082" Margin="0,0,0,10"/>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                            <TextBlock Text="Reserva seleccionada: " FontWeight="Bold"/>
+                            <TextBlock x:Name="LblBookingInfo" Text="(ninguna)" Foreground="#4B0082"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Button x:Name="BtnCheckIn" Content="Confirmar Check-In"
+                                    Width="150" Background="#4B0082" Foreground="White" Margin="0,0,8,0" Click="BtnCheckIn_Click"/>
+                            <Button x:Name="BtnCancel" Content="Cancelar" Width="100" Click="BtnCancel_Click"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Border>
     </Grid>
 </UserControl>

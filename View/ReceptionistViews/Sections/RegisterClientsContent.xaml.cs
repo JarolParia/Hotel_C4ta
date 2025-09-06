@@ -12,17 +12,20 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Hotel_C4ta.Model;
+using Microsoft.Data.SqlClient;
+
 
 namespace Hotel_C4ta.View.ReceptionistViews.Sections
 {
-    /// <summary>
-    /// Lógica de interacción para RegisterClientsContent.xaml
-    /// </summary>
+
     public partial class RegisterClientsContent : UserControl
     {
         public RegisterClientsContent()
         {
             InitializeComponent();
         }
+
+
     }
 }
