@@ -9,20 +9,12 @@ using System.Windows.Controls;
 
 namespace Hotel_C4ta.View.ReceptionistViews.Sections
 {
-<<<<<<< HEAD
     public partial class RegisterCheckOutContent : UserControl
     {
         private DatabaseConnection _db = new DatabaseConnection();
         private int _selectedBookingId = 0;
         private double _selectedEstimatedPrice = 0;
 
-=======
-    /// <summary>
-    /// Lógica de interacción para RegisterCheck_outContent.xaml
-    /// </summary>
-    public partial class RegisterCheckOutContent : UserControl
-    {
->>>>>>> 89905a425d42465c321a2ff71423c49327930442
         public RegisterCheckOutContent()
         {
             InitializeComponent();
