@@ -8,10 +8,9 @@ namespace Hotel_C4ta.Model
 {
     class ClientModel
     {
-        public string _DNI { get; set; } = "";
-        public string _Name { get; set; } = "";
-        public string _Email { get; set; } = "";
-
-        public string _Phone { get; set; } = "";
+        public string DNI { get; set; }
+        public string FullName { get; set; }
+        public string Email { get; set; }
+        public string Phone { get; set; }
     }
 }

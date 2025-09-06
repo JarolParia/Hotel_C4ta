@@ -8,11 +8,11 @@ namespace Hotel_C4ta.Model
 {
     class RoomModel
     {
-        public int _Number { get; set; }
-        public int _Floor { get; set; }
-        public string _Status { get; set; } = "";
-        public string _Type { get; set; } = "";
-        public int _Capacity { get; set; }
-        public double _BasePrice { get; set; }
+        public int RoomID { get; set; }
+        public int RoomFloor { get; set; }
+        public string RoomStatus { get; set; } = "Available"; // Available (by Default), Occupied
+        public string RoomType { get; set; } // Simple, Double, Suite, Matrimonial
+        public int Capacity { get; set; }
+        public decimal BasePrice { get; set; }
     }
 }

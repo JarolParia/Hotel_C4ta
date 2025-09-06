@@ -8,15 +8,13 @@ namespace Hotel_C4ta.Model
 {
     class BookingModel
     {
-        public int _Id { get; set; }
-        public DateTime _StartDate { get; set; }
-        public DateTime _EndDate { get; set; }
-        public string _Status { get; set; } = "";
-
-        public double _EstimatedPrice { get; set; }
-
-        public string _DniClient { get; set; } = "";
-        public int _IdReceptionist { get; set; }
-        public int _RoomNumber { get; set; }
+        public int BookingID { get; set; }
+        public DateTime StartDate { get; set; } = DateTime.Today; // Current by Default
+        public DateTime EndDate { get; set; }
+        public string BookingStatus { get; set; } = "Pending"; // Pending (by Default), Canceled, CheckedIn, CheckedOut 
+        public decimal EstimatedPrice { get; set; }
+        public string ClientDNI { get; set; }
+        public int ReceptionistID { get; set; }
+        public int RoomID { get; set; }
     }
 }
