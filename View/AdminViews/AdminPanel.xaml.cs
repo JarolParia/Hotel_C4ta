@@ -1,5 +1,4 @@
-﻿using Hotel_C4ta.View.AdminViews.Sections;
-﻿using Hotel_C4ta.View.AdminViews;
+﻿﻿using Hotel_C4ta.View.AdminViews;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Hotel_C4ta.View.AdminViews.Sections;
 
 namespace Hotel_C4ta.View.AdminViews
 {
@@ -41,8 +41,5 @@ namespace Hotel_C4ta.View.AdminViews
         {
             ContentArea.Content = new RoomManagementControl();
         }
-
-
-
     }
 }

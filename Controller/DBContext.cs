@@ -1,20 +1,38 @@
 ﻿using Microsoft.Data.SqlClient;
-using System.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Hotel_C4ta.Controller
 {
-    public class DBContext
+    public static class DBContext
     {
-        protected readonly string _ConnectionString;
+        private static SqlConnection? _connection;
 
-        public DBContext()
+        public static SqlConnection OpenConnection()
         {
-           _ConnectionString = ConfigurationManager.ConnectionStrings["HotelC4TA"].ConnectionString;
+
+            string connectionString = ConfigurationManager.ConnectionStrings["HotelC4TA"].ConnectionString;
+            _connection = new SqlConnection(connectionString);
+
+            try
+            {
+                _connection.Open();
+                return _connection;
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show("Error: " + ex.Message);
+                return null!;
+            }
+        }
+
+        public static void CloseConnection()
+        {
+            if (_connection != null && _connection.State == System.Data.ConnectionState.Open) _connection.Close();
         }
     }
 }

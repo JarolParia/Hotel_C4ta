@@ -36,7 +36,7 @@ namespace Hotel_C4ta.View.ReceptionistViews
             ContentArea.Content = new RegisterClientsContent();
         }
 
-        private void Search_UpdaeClient_Click(object sender, RoutedEventArgs e)
+        private void Search_UpdateClient_Click(object sender, RoutedEventArgs e)
         {
             ContentArea.Content = new Search_UpdateClientContent();
         }

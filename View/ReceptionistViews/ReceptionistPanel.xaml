@@ -76,7 +76,8 @@
                         Foreground="White"
                         Padding="10,5"
                         FontSize="14"
-                        BorderThickness="0" Click="LogOut_Click">
+                        BorderThickness="0">
+                    <!-- CLICK EVENT Click="LogOut_Click" -->
                     <Button.Template>
                         <ControlTemplate TargetType="Button">
                             <Border Background="{TemplateBinding Background}"
@@ -121,8 +122,8 @@
                     <Button Content="🗂 Dashboard"
                             Style="{StaticResource SidebarLinkButton}"
                             Margin="13,10,0,0"
-                            FontWeight="Bold"
-                            Click="Dashboard_Click"/>
+                            Click="Dashboard_Click"
+                            FontWeight="Bold"/>
 
                     <!-- Clients -->
                     <StackPanel Margin="10,5,0,0">
@@ -130,14 +131,15 @@
 
                         <Button Content="Register Clients"     
                                 Style="{StaticResource SidebarLinkButton}" 
-                                Width="117" 
-                                Margin="15 5 0 3"
-                                Click="RegisterClient_Click"/>
+                                Width="117"
+                                Click="RegisterClient_Click"
+                                Margin="15 5 0 3"/>
 
                         <Button Content="Search/Update Clients"
-                                Style="{StaticResource SidebarLinkButton}" 
-                                Click="Search_UpdaeClient_Click" 
+                                Style="{StaticResource SidebarLinkButton}"
+                                Click="Search_UpdateClient_Click"
                                 Margin="15 5 0 3"/>
+
                     </StackPanel>
 
                     <!-- Bookings -->
@@ -146,8 +148,7 @@
                     <Button Content="Create Booking"
                             Style="{StaticResource SidebarLinkButton}"
                             Margin="25,5,0,0"
-                            Click="CreateBooking_Click"
-                            />
+                            Click="CreateBooking_Click"/>
 
                     <Button Content="Search/Update Booking"
                             Style="{StaticResource SidebarLinkButton}"
@@ -159,20 +160,21 @@
 
                     <Button Content="Register Check-In"
                             Style="{StaticResource SidebarLinkButton}"
-                            Margin="25,5,0,0" Click="RegisterCheckIn_Click"/>
+                            Click="RegisterCheckIn_Click"
+                            Margin="25,5,0,0" />
 
                     <Button Content="Register Check-Out"
                             Style="{StaticResource SidebarLinkButton}"
-                            Margin="25,5,0,0"
-                            Click="RegisterCheckOut_Click"/>
+                            Click="RegisterCheckOut_Click"
+                            Margin="25,5,0,0"/>
 
                     <!-- Bills -->
                     <TextBlock Text="💲 Bills" FontSize="14" FontWeight="Bold" Margin="10 20 0 5"/>
 
                     <Button Content="See All Bills"
                             Style="{StaticResource SidebarLinkButton}"
-                            Margin="25,5,0,0"
-                            Click="SeeAllBills_Click"/>
+                            Click="SeeAllBills_Click"
+                            Margin="25,5,0,0"/>
                 </StackPanel>
 
                 <!-- Línea divisoria -->

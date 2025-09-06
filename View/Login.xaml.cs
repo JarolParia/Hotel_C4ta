@@ -23,44 +23,36 @@ namespace Hotel_C4ta
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly AuthController _authController = new AuthController();
+        private readonly LoginController _loginController = new LoginController();
         public MainWindow()
         {
             InitializeComponent();
-
         }
-  
 
         private void Join_Click(object sender, RoutedEventArgs e)
         {
-            string username = txtUsername.Text;
+            string email = txtEmail.Text;
             string password = txtPassword.Password;
 
-            string? UserType = _authController.HandleLogin(username, password);
+            string? role = _loginController.HandleLogin(email, password);
 
-            if (UserType == "Admin")
+            if (role == "Administrator")
             {
 
                 AdminPanel admin = new AdminPanel();
                 admin.Show();
                 this.Close();
             }
-            else if (UserType == "Recepcionist")
+            else if (role == "Receptionist")
             {
                 ReceptionistPanel recep = new ReceptionistPanel();
                 recep.Show();
                 this.Close();
             }
-            else { 
-            
+            else 
+            {         
                 MessageBox.Show("Invalid credentials, please try again.", "Login Failed", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-
-         
         }
-
-      
-       
-
     }
 }
