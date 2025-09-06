@@ -28,8 +28,6 @@ namespace Hotel_C4ta.View.ReceptionistViews.Sections
             InitializeComponent();
         }
 
-<<<<<<< HEAD
-=======
         private void BtnSave_Click(object sender, RoutedEventArgs e)
         {
             string dni = TxtDni.Text.Trim();
@@ -75,7 +73,5 @@ namespace Hotel_C4ta.View.ReceptionistViews.Sections
             TxtEmail.Clear();
             TxtPhone.Clear();
         }
->>>>>>> 89905a425d42465c321a2ff71423c49327930442
-
     }
 }

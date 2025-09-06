@@ -15,31 +15,19 @@ using System.Windows.Shapes;
 using Hotel_C4ta.Model;
 using Microsoft.Data.SqlClient;
 
-<<<<<<< HEAD
-    
-=======
-
->>>>>>> 89905a425d42465c321a2ff71423c49327930442
-
 namespace Hotel_C4ta.View.ReceptionistViews.Sections
 {
 
     public partial class Search_UpdateClientContent : UserControl
     {
-<<<<<<< HEAD
 
-=======
         private DatabaseConnection _db = new DatabaseConnection();
         private string _selectedDni = null;
->>>>>>> 89905a425d42465c321a2ff71423c49327930442
         public Search_UpdateClientContent()
         {
             InitializeComponent();
             LoadClients();
         }
-<<<<<<< HEAD
-        
-=======
         private void LoadClients()
         {
             var clients = new List<ClientModel>();
@@ -162,7 +150,5 @@ namespace Hotel_C4ta.View.ReceptionistViews.Sections
             }
             LoadClients();
         }
->>>>>>> 89905a425d42465c321a2ff71423c49327930442
-
     }
 }

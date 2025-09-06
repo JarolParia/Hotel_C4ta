@@ -2,11 +2,8 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              Height="Auto" Width="Auto">
-<<<<<<< HEAD
 
-</UserControl>
-=======
-	<Grid Background="White" Margin="10">
+<Grid Background="White" Margin="10">
 		<Border Background="#F5F5F5" CornerRadius="10" Padding="14">
 			<Grid>
 				<Grid.RowDefinitions>
@@ -77,4 +74,3 @@
 		</Border>
 	</Grid>
 </UserControl>
->>>>>>> 89905a425d42465c321a2ff71423c49327930442
