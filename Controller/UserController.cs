@@ -23,21 +23,20 @@ namespace Hotel_C4ta.Controller
                                "UNION " +
                                "SELECT ID, FullName, Code AS ExtraInfo, PasswordHashed FROM Receptionist WHERE ID=@id";
 
-                using (var cmd = new SqlCommand(query, conn))
+                using var cmd = new SqlCommand(query, conn);
+
+                cmd.Parameters.AddWithValue("@id", id);
+                using (var reader = cmd.ExecuteReader())
                 {
-                    cmd.Parameters.AddWithValue("@id", id);
-                    using (var reader = cmd.ExecuteReader())
+                    if (reader.Read())
                     {
-                        if (reader.Read())
+                        return new UserDTO
                         {
-                            return new UserDTO
-                            {
-                                ID = reader.GetInt32(0),
-                                FullName = reader.GetString(1),
-                                RoleCode = reader.GetString(2),
-                                PasswordHashed = reader.GetString(3)
-                            };
-                        }
+                            ID = reader.GetInt32(0),
+                            FullName = reader.GetString(1),
+                            RoleCode = reader.GetString(2),
+                            PasswordHashed = reader.GetString(3)
+                        };
                     }
                 }
             }

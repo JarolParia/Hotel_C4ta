@@ -9,7 +9,34 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="View\AdminViews\Sections\**" />
+    <EmbeddedResource Remove="View\AdminViews\Sections\**" />
+    <None Remove="View\AdminViews\Sections\**" />
+    <Page Remove="View\AdminViews\Sections\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="View\ReceptionistViews\Sections\CreateBookingContent.xaml.cs" />
+    <Compile Remove="View\ReceptionistViews\Sections\RegisterCheckinContent.xaml.cs" />
+    <Compile Remove="View\ReceptionistViews\Sections\RegisterCheckoutContent.xaml.cs" />
+    <Compile Remove="View\ReceptionistViews\Sections\Search_UpdateBookingContent.xaml.cs" />
+    <Compile Remove="View\ReceptionistViews\Sections\SeeAllBillsContent.xaml.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Resources\LogoHotel.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Remove="View\ReceptionistViews\Sections\CreateBookingContent.xaml" />
+    <Page Remove="View\ReceptionistViews\Sections\RegisterCheckinContent.xaml" />
+    <Page Remove="View\ReceptionistViews\Sections\RegisterCheckoutContent.xaml" />
+    <Page Remove="View\ReceptionistViews\Sections\Search_UpdateBookingContent.xaml" />
+    <Page Remove="View\ReceptionistViews\Sections\SeeAllBillsContent.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="View\AdminViews\Sections\DashboardControl.xaml.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -22,6 +49,10 @@
     <PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.1" />
     <PackageReference Include="PDFsharp" Version="6.2.1" />
     <PackageReference Include="System.Drawing.Common" Version="9.0.8" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Include="View\AdminViews\Sections\DashboardControl.xaml" />
   </ItemGroup>
 
 </Project>

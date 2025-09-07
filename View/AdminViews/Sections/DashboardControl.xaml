@@ -10,7 +10,7 @@
                            FontSize="20"
                            FontWeight="Bold"
                            Margin="0,0,0,15"/>
-                <TextBlock Text="Aquí puedes ver un resumen general del hotel."
+                <TextBlock Text="Here you can see a general summary of the hotel."
                            FontSize="14"
                            Foreground="Black"/>
             </StackPanel>

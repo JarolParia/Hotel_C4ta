@@ -71,7 +71,7 @@
                     </Button>
 
                     <!-- User Management (botón redondeado con hover) -->
-                    <Button Content="👤  User Management"
+                    <Button Content="👤  Users Management"
                             Background="Transparent"
                             Foreground="Black"
                             BorderThickness="0"
@@ -79,7 +79,7 @@
                             Padding="8"
                             Margin="0,10,0,10"
                             HorizontalAlignment="Stretch"
-                            Click="UserManagement_Click">
+                            >
                         <Button.Style>
                             <Style TargetType="Button">
                                 <Setter Property="Background" Value="Transparent"/>
@@ -117,7 +117,7 @@
                             Padding="8"
                             Margin="0,10,0,10"
                             HorizontalAlignment="Stretch"
-                            Click="RoomManagement_Click">
+                            >
                         <Button.Style>
                             <Style TargetType="Button">
                                 <Setter Property="Background" Value="Transparent"/>
@@ -154,7 +154,8 @@
                             BorderThickness="0"
                             Cursor="Hand"
                             HorizontalAlignment="Center"
-                            Width="100" Height="35">
+                            Width="100" Height="35"
+                            Click="LogOut_Click">
                         <Button.Template>
                             <ControlTemplate TargetType="Button">
                                 <Border x:Name="border"

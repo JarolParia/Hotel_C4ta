@@ -24,6 +24,7 @@ namespace Hotel_C4ta
     public partial class MainWindow : Window
     {
         private readonly LoginController _loginController = new LoginController();
+
         public MainWindow()
         {
             InitializeComponent();
@@ -34,25 +35,32 @@ namespace Hotel_C4ta
             string email = txtEmail.Text;
             string password = txtPassword.Password;
 
-            string? role = _loginController.HandleLogin(email, password);
-
-            if (role == "Administrator")
+            try
             {
+                var user = _loginController.HandleLogin(email, password);
 
-                AdminPanel admin = new AdminPanel();
-                admin.Show();
-                this.Close();
+                if (user.rol == "Admin")
+                {
+
+                    AdminPanel admin = new AdminPanel();
+                    admin.Show();
+                    this.Close();
+                }
+                else if (user.rol == "Recep")
+                {
+                    ReceptionistPanel recep = new ReceptionistPanel(user.fullname);
+                    recep.Show();
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Invalid credentials, please try again.", "Login Failed", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
-            else if (role == "Receptionist")
+            catch (Exception ex)
             {
-                ReceptionistPanel recep = new ReceptionistPanel();
-                recep.Show();
-                this.Close();
-            }
-            else 
-            {         
-                MessageBox.Show("Invalid credentials, please try again.", "Login Failed", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+                MessageBox.Show(ex.Message);
+            } 
         }
     }
 }

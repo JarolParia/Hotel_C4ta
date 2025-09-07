@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Hotel_C4ta.Model
 {
-    class ClientModel
+    public class ClientModel
     {
         public string DNI { get; set; }
         public string FullName { get; set; }

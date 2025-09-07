@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Hotel_C4ta.Model
 {
-    class ReceptionistModel : UserModel
+    public class ReceptionistModel : UserModel
     {
-        public string Code { get; set; }
+
     }
 }

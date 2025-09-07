@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Hotel_C4ta.Model
 {
-    class BillModel
+    public class BillModel
     {
         public int BillID { get; set; }
         public DateTime IssueDate { get; set; } = DateTime.Today; // Current by Default

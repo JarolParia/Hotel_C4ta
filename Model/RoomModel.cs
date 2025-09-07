@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Hotel_C4ta.Model
 {
-    class RoomModel
+    public class RoomModel
     {
         public int RoomID { get; set; }
         public int RoomFloor { get; set; }
