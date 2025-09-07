@@ -13,15 +13,15 @@ namespace Hotel_C4ta.Controller
 {
     public class LoginController
     {
-        public (string fullname, string rol) HandleLogin(string email, string password) {
+        public (int id, string fullname, string rol) HandleLogin(string email, string password) {
             using var conn = DBContext.OpenConnection();
 
             string query = @"
-                SELECT FullName, Rol 
+                SELECT ID, FullName, Rol 
                 FROM Administrator 
                 WHERE Email = @email AND PasswordHashed = @pass
                 UNION
-                SELECT FullName, Rol    
+                SELECT ID, FullName, Rol    
                 FROM Receptionist 
                 WHERE Email = @email AND PasswordHashed = @pass";
 
@@ -33,13 +33,14 @@ namespace Hotel_C4ta.Controller
 
             if (reader.Read())
             {
-                string fullname = reader.GetString(0);
-                string rol = reader.GetString(1);
-                return (fullname, rol);
+                int id = reader.GetInt32(0);
+                string fullname = reader.GetString(1);
+                string rol = reader.GetString(2);
+                return (id, fullname, rol);
             }
             else
             {
-                throw new Exception("Usuario no encontrado o credenciales incorrectas.");
+                throw new Exception("User not found or incorrect credentials.");
             }
         }
     }

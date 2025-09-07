@@ -148,6 +148,7 @@
 
                     <Button Content="Create Bookings"
                             Style="{StaticResource SidebarLinkButton}"
+                            Click="CreateBooking_Click"
                             Margin="25,5,0,0"
                             />
 

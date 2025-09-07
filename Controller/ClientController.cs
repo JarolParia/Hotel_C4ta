@@ -22,26 +22,52 @@ namespace Hotel_C4ta.Controller
 
             try
             {
-                string sql = "SELECT DNI, FullName, Email, Phone FROM Client";
-                using (var cmd = new SqlCommand(sql, conn))
-                using (var reader = cmd.ExecuteReader())
+                string sql = "SELECT * FROM Client";
+                using var cmd = new SqlCommand(sql, conn);
+                using var reader = cmd.ExecuteReader();
+                while (reader.Read())
                 {
-                    while (reader.Read())
+                    clients.Add(new ClientModel
                     {
-                        clients.Add(new ClientModel
-                        {
-                            DNI = reader.GetString(0),
-                            FullName = reader.GetString(1),
-                            Email = reader.GetString(2),
-                            Phone = reader.GetString(3)
-                        });
-                    }
-                    return clients;
+                        DNI = reader.GetString(0),
+                        FullName = reader.GetString(1),
+                        Email = reader.GetString(2),
+                        Phone = reader.GetString(3)
+                    });
+                }
+                return clients;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error loading clients: " + ex.Message);
+            }
+            return null;
+        }
+
+        public ClientModel GetClient(int dni)
+        {
+            using var conn = DBContext.OpenConnection();
+
+            try
+            {
+                string sql = "SELECT * FROM Client WHERE DNI=@dni";
+                using var cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@dni", dni);
+                using var reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    return new ClientModel
+                    {
+                        DNI = reader.GetString(0),
+                        FullName = reader.GetString(1),
+                        Email = reader.GetString(2),
+                        Phone = reader.GetString(3),
+                    };
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al cargar clientes: " + ex.Message);
+                MessageBox.Show("Error loading clients: " + ex.Message);
             }
             return null;
         }
@@ -53,15 +79,13 @@ namespace Hotel_C4ta.Controller
             try
             {
                 string sql = "INSERT INTO Client (DNI, FullName, Email, Phone) VALUES (@dni, @fullname, @email, @phone)";
-                using (var cmd = new SqlCommand(sql, conn))
-                {
-                    cmd.Parameters.AddWithValue("@dni", dni);
-                    cmd.Parameters.AddWithValue("@fullname", fullname);
-                    cmd.Parameters.AddWithValue("@email", email);
-                    cmd.Parameters.AddWithValue("@phone", phone);
-                    cmd.ExecuteNonQuery();
-                    MessageBox.Show("Successfully registered client.");
-                }
+                using var cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@dni", dni);
+                cmd.Parameters.AddWithValue("@fullname", fullname);
+                cmd.Parameters.AddWithValue("@email", email);
+                cmd.Parameters.AddWithValue("@phone", phone);
+                cmd.ExecuteNonQuery();
+                MessageBox.Show("Client registered successfully.");
             }
             catch (Exception ex)
             {
@@ -76,15 +100,13 @@ namespace Hotel_C4ta.Controller
             try
             {
                 string sql = "UPDATE Client SET FullName=@fullname, Email=@email, Phone=@phone WHERE DNI=@dni";
-                using (var cmd = new SqlCommand(sql, conn))
-                {
-                    cmd.Parameters.AddWithValue("@dni", dni);
-                    cmd.Parameters.AddWithValue("@fullname", fullname);
-                    cmd.Parameters.AddWithValue("@email", email);
-                    cmd.Parameters.AddWithValue("@phone", phone);
-                    cmd.ExecuteNonQuery();
-                    MessageBox.Show("Successfully updated client.");
-                }
+                using var cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@dni", dni);
+                cmd.Parameters.AddWithValue("@fullname", fullname);
+                cmd.Parameters.AddWithValue("@email", email);
+                cmd.Parameters.AddWithValue("@phone", phone);
+                cmd.ExecuteNonQuery();
+                MessageBox.Show("Client updated successfully.");
             }
             catch (Exception ex)
             {
@@ -103,7 +125,7 @@ namespace Hotel_C4ta.Controller
                 {
                     cmd.Parameters.AddWithValue("@dni", dni);
                     cmd.ExecuteNonQuery();
-                    MessageBox.Show("Successfully deleted client.");
+                    MessageBox.Show("Client deleted successfully.");
                 }
             }
             catch (Exception ex)
@@ -113,3 +135,4 @@ namespace Hotel_C4ta.Controller
         }
     }
 }
+//CRUD Complete ON Client

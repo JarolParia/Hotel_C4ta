@@ -13,6 +13,7 @@ namespace Hotel_C4ta.Controller
 {
     public class UserController
     {
+        // STILL NOT DEFINED - ADMIN VIEWS - USERS MANAGEMENT
         public UserDTO CargarUsuario(int id)
         {
             using var conn = DBContext.OpenConnection();

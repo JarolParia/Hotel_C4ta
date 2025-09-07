@@ -6,49 +6,48 @@
         <Border Background="#F5F5F5" CornerRadius="10" Padding="14">
             <StackPanel>
                 <!-- Header -->
-                <TextBlock Text="📅 Crear Reserva"
+                <TextBlock Text="📅 Create Booking"
                            FontSize="20"
                            FontWeight="Bold"
                            Foreground="#4B0082"
                            Margin="0,0,0,15"/>
 
                 <!-- Campos -->
-                <TextBlock Text="Cliente (DNI)" />
+                <TextBlock Text="Client (DNI)" />
                 <ComboBox x:Name="CmbClient"
-                          DisplayMemberPath="_Name"
-                          SelectedValuePath="_DNI"
+                          DisplayMemberPath="FullName"
+                          SelectedValuePath="DNI"
                           Margin="0,0,0,10"/>
 
-                <TextBlock Text="Recepcionista" />
+                <TextBlock Text="Receptionist" />
                 <ComboBox x:Name="CmbReceptionist"
-                          DisplayMemberPath="_Name"
-                          SelectedValuePath="Id"
+                          DisplayMemberPath="FullName"
                           Margin="0,0,0,10"/>
 
-                <TextBlock Text="Habitación" />
+                <TextBlock Text="Room" />
                 <ComboBox x:Name="CmbRoom"
-                          DisplayMemberPath="_Number"
-                          SelectedValuePath="_Number"
+                          DisplayMemberPath="RoomID"
+                          SelectedValuePath="RoomID"
                           Margin="0,0,0,10"/>
 
-                <TextBlock Text="Fecha Inicio"/>
+                <TextBlock Text="Start Date"/>
                 <DatePicker x:Name="DpStartDate" SelectedDateChanged="DateChanged" Margin="0,0,0,10"/>
 
-                <TextBlock Text="Fecha Fin"/>
+                <TextBlock Text="End Date"/>
                 <DatePicker x:Name="DpEndDate" SelectedDateChanged="DateChanged" Margin="0,0,0,10"/>
 
-                <TextBlock Text="Estado"/>
-                <TextBox x:Name="TxtStatus" Text="Pendiente" IsReadOnly="True" Margin="0,0,0,10"/>
+                <TextBlock Text="Status"/>
+                <TextBox x:Name="TxtStatus" Text="Pending" IsReadOnly="True" Margin="0,0,0,10"/>
 
-                <TextBlock Text="Precio Estimado"/>
+                <TextBlock Text="Estimated Price"/>
                 <TextBox x:Name="TxtEstimatedPrice" IsReadOnly="True" Margin="0,0,0,20"/>
 
                 <!-- Botones -->
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Button x:Name="BtnSave" Content="Guardar" Width="100"
+                    <Button x:Name="BtnSave" Content="Save" Width="100"
                             Background="#4B0082" Foreground="White" Margin="0,0,10,0"
                             Click="BtnSave_Click"/>
-                    <Button x:Name="BtnCancel" Content="Cancelar" Width="100"
+                    <Button x:Name="BtnCancel" Content="Cancel" Width="100"
                             Background="#B00020" Foreground="White"
                             Click="BtnCancel_Click"/>
                 </StackPanel>

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Hotel_C4ta.Controller
 {
-    internal class PaymentController
+    public class PaymentController
     {
     }
 }

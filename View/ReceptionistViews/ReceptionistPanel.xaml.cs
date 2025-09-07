@@ -20,10 +20,15 @@ namespace Hotel_C4ta.View.ReceptionistViews
     /// </summary>
     public partial class ReceptionistPanel : Window
     {
-        public ReceptionistPanel(string name)
+        private int _receptionistId;
+        private string _receptionistName = string.Empty;
+
+        public ReceptionistPanel(int receptionistId, string receptionistName)
         {
             InitializeComponent();
-            lblUsuario.Content = name;
+            _receptionistId = receptionistId;
+            _receptionistName = receptionistName;
+            lblUsuario.Content = _receptionistName;
             ContentArea.Content = new DashboardContent(); //Show dashboard by default
         }
 
@@ -41,6 +46,10 @@ namespace Hotel_C4ta.View.ReceptionistViews
         {
             ContentArea.Content = new Search_UpdateClientsContent();
         }
+        private void CreateBooking_Click(object sender, RoutedEventArgs e)
+        {
+            ContentArea.Content = new CreateBookingContent(_receptionistId);
+        }
 
         /*private void RegisterCheckIn_Click(object sender, RoutedEventArgs e)
         {
@@ -54,11 +63,6 @@ namespace Hotel_C4ta.View.ReceptionistViews
         private void Search_UpdateBooking_Click(object sender, RoutedEventArgs e)
         {
             ContentArea.Content = new Search_UpdateBookingContent();
-        }
-
-        private void CreateBooking_Click(object sender, RoutedEventArgs e)
-        {
-            ContentArea.Content = new CreateBookingContent();
         }
 
         private void SeeAllBills_Click(object sender, RoutedEventArgs e)

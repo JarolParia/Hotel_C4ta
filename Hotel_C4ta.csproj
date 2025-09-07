@@ -16,7 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="View\ReceptionistViews\Sections\CreateBookingContent.xaml.cs" />
     <Compile Remove="View\ReceptionistViews\Sections\RegisterCheckinContent.xaml.cs" />
     <Compile Remove="View\ReceptionistViews\Sections\RegisterCheckoutContent.xaml.cs" />
     <Compile Remove="View\ReceptionistViews\Sections\Search_UpdateBookingContent.xaml.cs" />
@@ -28,7 +27,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Page Remove="View\ReceptionistViews\Sections\CreateBookingContent.xaml" />
     <Page Remove="View\ReceptionistViews\Sections\RegisterCheckinContent.xaml" />
     <Page Remove="View\ReceptionistViews\Sections\RegisterCheckoutContent.xaml" />
     <Page Remove="View\ReceptionistViews\Sections\Search_UpdateBookingContent.xaml" />

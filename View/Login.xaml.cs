@@ -32,6 +32,7 @@ namespace Hotel_C4ta
 
         private void Join_Click(object sender, RoutedEventArgs e)
         {
+            int id;
             string email = txtEmail.Text;
             string password = txtPassword.Password;
 
@@ -48,7 +49,7 @@ namespace Hotel_C4ta
                 }
                 else if (user.rol == "Recep")
                 {
-                    ReceptionistPanel recep = new ReceptionistPanel(user.fullname);
+                    ReceptionistPanel recep = new ReceptionistPanel(user.id, user.fullname);
                     recep.Show();
                     this.Close();
                 }

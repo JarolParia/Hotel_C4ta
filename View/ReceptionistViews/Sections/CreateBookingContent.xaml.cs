@@ -1,4 +1,6 @@
-﻿using Hotel_C4ta.Model;
+﻿using Hotel_C4ta.Controller;
+using Hotel_C4ta.Model;
+using Hotel_C4ta.Utils;
 using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
@@ -22,99 +24,32 @@ namespace Hotel_C4ta.View.ReceptionistViews.Sections
     /// </summary>
     public partial class CreateBookingContent : UserControl
     {
-        private DatabaseConnection _db = new DatabaseConnection();
-        public CreateBookingContent()
+        private readonly ClientController _clientController 
+            = new ClientController();
+
+        private readonly ReceptionistController _receptionistController
+            = new ReceptionistController();
+
+        private readonly RoomController _roomController 
+            = new RoomController();
+
+        private readonly BookingController _bookingController
+            = new BookingController();
+
+        public CreateBookingContent(int receptionistID)
         {
             InitializeComponent();
-            LoadClients();
-            LoadReceptionists();
-            LoadAvailableRooms();
-        }
-        private void LoadClients()
-        {
-            var clients = new List<ClientModel>();
-            using (var conn = _db.OpenConnection())
-            {
-                if (conn == null) return;
-                string sql = "SELECT Dni, Names, Email, Phone FROM Client";
-                using (var cmd = new SqlCommand(sql, conn))
-                using (var reader = cmd.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        clients.Add(new ClientModel
-                        {
-                            _DNI = reader.GetString(0),
-                            _Name = reader.GetString(1),
-                            _Email = reader.GetString(2),
-                            _Phone = reader.IsDBNull(3) ? "" : reader.GetString(3)
-                        });
-                    }
-                }
-                _db.CloseConnection();
-            }
+            var clients = _clientController.GetAllClients();
             CmbClient.ItemsSource = clients;
-        }
 
-        private void LoadReceptionists()
-        {
-            var receps = new List<ReceptionistModel>();
-            using (var conn = _db.OpenConnection())
-            {
-                if (conn == null) return;
-                string sql = "SELECT Id, Names FROM Recepcionist";
-                using (var cmd = new SqlCommand(sql, conn))
-                using (var reader = cmd.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        receps.Add(new ReceptionistModel
-                        {
-                            _Id = reader.GetInt32(0), // hereda de UserModel
-                            _Name = reader.GetString(1)
-                        });
-                    }
-                }
-                _db.CloseConnection();
-            }
-            CmbReceptionist.ItemsSource = receps;
-        }
+            var receptionist = _receptionistController.GetReceptionist(receptionistID);
+            CmbReceptionist.Items.Add(receptionist);
 
-        private void LoadAvailableRooms()
-        {
-            var rooms = new List<RoomModel>();
-            using (var conn = _db.OpenConnection())
-            {
-                if (conn == null) return;
-                // Por ahora carga todas, luego filtramos por fechas seleccionadas
-                string sql = "SELECT Number, Floors, Status_, Type_, Capacity, BasedPrice FROM Room WHERE Status_ = 'Disponible'";
-                using (var cmd = new SqlCommand(sql, conn))
-                using (var reader = cmd.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        rooms.Add(new RoomModel
-                        {
-                            _Number = reader.GetInt32(0),
-                            _Floor = reader.GetInt32(1),
-                            _Status = reader.IsDBNull(2) ? "" : reader.GetString(2),
-                            _Type = reader.IsDBNull(3) ? "" : reader.GetString(3),
-                            _Capacity = reader.GetInt32(4),
-                            _BasePrice = (double)reader.GetDecimal(5)
-                        });
-                    }
-                }
-                _db.CloseConnection();
-            }
+            var rooms = _roomController.GetAllAvailableRooms();
             CmbRoom.ItemsSource = rooms;
         }
 
         private void DateChanged(object sender, SelectionChangedEventArgs e)
-        {
-            CalculatePrice();
-        }
-
-        private void CalculatePrice()
         {
             if (DpStartDate.SelectedDate == null || DpEndDate.SelectedDate == null || CmbRoom.SelectedItem == null)
                 return;
@@ -122,17 +57,10 @@ namespace Hotel_C4ta.View.ReceptionistViews.Sections
             var start = DpStartDate.SelectedDate.Value;
             var end = DpEndDate.SelectedDate.Value;
 
-            if (end <= start)
-            {
-                TxtEstimatedPrice.Text = "0";
-                return;
-            }
+            var EstimatedPrice = CalculateBookingPrice.Calculate(
+                                (RoomModel)CmbRoom.SelectedItem, start, end);
 
-            var days = (end - start).Days;
-            var room = (RoomModel)CmbRoom.SelectedItem;
-            var total = days * room._BasePrice;
-
-            TxtEstimatedPrice.Text = total.ToString("0.00");
+            TxtEstimatedPrice.Text = EstimatedPrice.ToString("0.00");
         }
 
         private void BtnSave_Click(object sender, RoutedEventArgs e)
@@ -140,46 +68,30 @@ namespace Hotel_C4ta.View.ReceptionistViews.Sections
             if (CmbClient.SelectedItem == null || CmbReceptionist.SelectedItem == null || CmbRoom.SelectedItem == null ||
                 DpStartDate.SelectedDate == null || DpEndDate.SelectedDate == null)
             {
-                MessageBox.Show("Completa todos los campos.");
+                MessageBox.Show("All fields are required.");
                 return;
             }
 
+            var start = DpStartDate.SelectedDate.Value;
+            var end = DpEndDate.SelectedDate.Value;
+            var status = TxtStatus.Text;
+            var price = decimal.Parse(TxtEstimatedPrice.Text);
             var client = (ClientModel)CmbClient.SelectedItem;
             var recep = (ReceptionistModel)CmbReceptionist.SelectedItem;
             var room = (RoomModel)CmbRoom.SelectedItem;
-            var start = DpStartDate.SelectedDate.Value;
-            var end = DpEndDate.SelectedDate.Value;
-            var price = double.Parse(TxtEstimatedPrice.Text);
+            
+            var createdBooking = _bookingController.RegisterBooking(start, end, status, price, client.DNI, recep.ID, room.RoomID);
 
-            using (var conn = _db.OpenConnection())
+            if (createdBooking)
             {
-                if (conn == null) return;
-                try
-                {
-                    string sql = @"INSERT INTO Booking (StartDate, EndDate, Status_, EstimatedPrice, DniClient, IdRecepcionist, RoomNumber)
-                                   VALUES (@sd, @ed, @st, @price, @dni, @idrec, @room)";
-                    using (var cmd = new SqlCommand(sql, conn))
-                    {
-                        cmd.Parameters.AddWithValue("@sd", start);
-                        cmd.Parameters.AddWithValue("@ed", end);
-                        cmd.Parameters.AddWithValue("@st", TxtStatus.Text);
-                        cmd.Parameters.AddWithValue("@price", price);
-                        cmd.Parameters.AddWithValue("@dni", client._DNI);
-                        cmd.Parameters.AddWithValue("@idrec", recep._Id);
-                        cmd.Parameters.AddWithValue("@room", room._Number);
-                        cmd.ExecuteNonQuery();
-                    }
-                    MessageBox.Show("Reserva creada correctamente.");
-                    ClearForm();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error al guardar: " + ex.Message);
-                }
-                finally
-                {
-                    _db.CloseConnection();
-                }
+                _roomController.UpdateStatusRoom(room.RoomID, "Occupied");
+
+                MessageBox.Show($"Booking created successfully. {room.RoomID} room status changed to Occupied");
+                ClearForm();
+            }
+            else
+            {
+                MessageBox.Show("Error saving booking.");
             }
         }
 
@@ -196,8 +108,7 @@ namespace Hotel_C4ta.View.ReceptionistViews.Sections
             DpStartDate.SelectedDate = null;
             DpEndDate.SelectedDate = null;
             TxtEstimatedPrice.Text = "";
-            TxtStatus.Text = "Pendiente";
+            TxtStatus.Text = "Pending";
         }
-
     }
 }
