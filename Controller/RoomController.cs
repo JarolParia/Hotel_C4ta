@@ -100,27 +100,76 @@ namespace Hotel_C4ta.Controller
         }
 
         //CREATE ROOM -- admin
+        public void CreateRoom(int roomid,int roomFloor, string roomStatus, string roomType, int capacity, decimal basePrice)
+        {
+            using var conn = DBContext.OpenConnection();
+            try
+            {
+                string sql = "INSERT INTO Room (RoomID,RoomFloor, RoomStatus, RoomType, Capacity, BasePrice) VALUES (@roomID, @roomFloor, @roomStatus, @roomType, @capacity, @basePrice)";
+                using (var cmd = new SqlCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@roomID", roomid);
+                    cmd.Parameters.AddWithValue("@roomFloor", roomFloor);
+                    cmd.Parameters.AddWithValue("@roomStatus", roomStatus);
+                    cmd.Parameters.AddWithValue("@roomType", roomType);
+                    cmd.Parameters.AddWithValue("@capacity", capacity);
+                    cmd.Parameters.AddWithValue("@basePrice", basePrice);
+                    cmd.ExecuteNonQuery();
+                    MessageBox.Show("Room created successfully.");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error creating room: " + ex.Message);
+            }
+        }
+
+        
         //UPDATE ROOM -- admin
+
+        public void UpdateRoom(int roomid, string roomStatus, int capacity, decimal basePrice)
+        {
+            using var conn = DBContext.OpenConnection();
+            try
+            {
+                string sql = "UPDATE Room SET  RoomStatus=@roomStatus, Capacity=@capacity, BasePrice=@basePrice WHERE RoomID=@roomid";
+                using (var cmd = new SqlCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@roomStatus", roomStatus);
+                    cmd.Parameters.AddWithValue("@capacity", capacity);
+                    cmd.Parameters.AddWithValue("@basePrice", basePrice);
+                    cmd.Parameters.AddWithValue("@roomid", roomid);
+                    cmd.ExecuteNonQuery();
+                    MessageBox.Show("Room updated successfully.");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error updating Room: " + ex.Message);
+            }
+        }
+
         //DELETE ROOM -- admin
-        /*public void DeleteClient(string dni)
+        public void DeleteRoom(int roomid)
         {
             using var conn = DBContext.OpenConnection();
 
             try
             {
-                string sql = "DELETE FROM Client WHERE DNI=@dni";
+                string sql = "DELETE FROM Room WHERE RoomID=@roomid ";
                 using (var cmd = new SqlCommand(sql, conn))
                 {
-                    cmd.Parameters.AddWithValue("@dni", dni);
+                    cmd.Parameters.AddWithValue("@roomid", roomid);
                     cmd.ExecuteNonQuery();
-                    MessageBox.Show("Client deleted successfully.");
+                    MessageBox.Show("Room deleted successfully.");
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error deleting client: " + ex.Message);
+                MessageBox.Show("Error deleting Room: " + ex.Message);
             }
         }
-        */
+        
     }
 }
+// CRUD of rooms Melo

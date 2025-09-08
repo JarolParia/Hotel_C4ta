@@ -13,7 +13,7 @@
 
                 <!-- Header -->
                 <TextBlock Grid.Row="0"
-                           Text="🛏 Gestión de Habitaciones"
+                           Text="🛏 Rooms Management"
                            FontSize="20"
                            FontWeight="Bold"
                            Foreground="#4B0082"
@@ -45,12 +45,12 @@
                     </DataGrid.ColumnHeaderStyle>
 
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Number" Binding="{Binding _Number}" Width="*" CanUserResize="False"/>
-                        <DataGridTextColumn Header="Floor" Binding="{Binding _Floor}" Width="*" CanUserResize="False"/>
-                        <DataGridTextColumn Header="State" Binding="{Binding _Status}" Width="*" CanUserResize="False"/>
-                        <DataGridTextColumn Header="Type" Binding="{Binding _Type}" Width="*" CanUserResize="False"/>
-                        <DataGridTextColumn Header="Capacity" Binding="{Binding _Capacity}" Width="*" CanUserResize="False"/>
-                        <DataGridTextColumn Header="BasedPrice" Binding="{Binding _BasePrice}" Width="*" CanUserResize="False"/>
+                        <DataGridTextColumn Header="Number" Binding="{Binding RoomID}" Width="*" CanUserResize="False"/>
+                        <DataGridTextColumn Header="Floor" Binding="{Binding RoomFloor}" Width="*" CanUserResize="False"/>
+                        <DataGridTextColumn Header="State" Binding="{Binding RoomStatus}" Width="*" CanUserResize="False"/>
+                        <DataGridTextColumn Header="Type" Binding="{Binding RoomType}" Width="*" CanUserResize="False"/>
+                        <DataGridTextColumn Header="Capacity" Binding="{Binding Capacity}" Width="*" CanUserResize="False"/>
+                        <DataGridTextColumn Header="BasedPrice" Binding="{Binding BasePrice}" Width="*" CanUserResize="False"/>
                     </DataGrid.Columns>
                 </DataGrid>
 
@@ -58,41 +58,51 @@
                 <Border Grid.Row="2" Background="White" CornerRadius="8" Padding="12"
                         BorderBrush="#E0E0E0" BorderThickness="1" Margin="0,10,0,0">
                     <StackPanel>
-                        <TextBlock Text="Detalles de Habitación" FontSize="16" FontWeight="Bold"
+                        <TextBlock Text="Room Details" FontSize="16" FontWeight="Bold"
                                    Foreground="#4B0082" Margin="0,0,0,10"/>
 
                         <UniformGrid Columns="2" Rows="3" Margin="0,0,0,10">
                             <StackPanel Margin="5">
-                                <TextBlock Text="Número"/>
-                                <TextBox x:Name="TxtNumber"/>
+                                <TextBlock Text="Room Number"/>
+                                <TextBox x:Name="TxtRoomNumber" IsEnabled="True"/>
                             </StackPanel>
                             <StackPanel Margin="5">
-                                <TextBlock Text="Piso"/>
-                                <TextBox x:Name="TxtFloor"/>
+                                <TextBlock Text="Floor"/>
+                                <TextBox x:Name="TxtRoomFloor" IsEnabled="True"/>
                             </StackPanel>
                             <StackPanel Margin="5">
-                                <TextBlock Text="Estado"/>
-                                <TextBox x:Name="TxtStatus"/>
+                                <TextBlock Text="Status"/>
+                                <ComboBox x:Name="CmbStatus" SelectedIndex="0">
+                                    <ComboBoxItem Content="Available"/>
+                                    <ComboBoxItem Content="Occupied"/>
+                                </ComboBox>
                             </StackPanel>
                             <StackPanel Margin="5">
-                                <TextBlock Text="Tipo"/>
-                                <TextBox x:Name="TxtType"/>
+                                <TextBlock Text="Type"/>
+                                <!-- ComboBox para Tipo -->
+                                <ComboBox x:Name="CmbType" SelectedIndex="0" IsEnabled="True">
+                                    <ComboBoxItem Content="Simple"/>
+                                    <ComboBoxItem Content="Double"/>
+                                    <ComboBoxItem Content="Suite"/>
+                                    <ComboBoxItem Content="Matrimonial"/>
+                                </ComboBox>
                             </StackPanel>
                             <StackPanel Margin="5">
-                                <TextBlock Text="Capacidad"/>
+                                <TextBlock Text="Capacity"/>
                                 <TextBox x:Name="TxtCapacity"/>
                             </StackPanel>
                             <StackPanel Margin="5">
-                                <TextBlock Text="Precio Base"/>
+                                <TextBlock Text="Based Price"/>
                                 <TextBox x:Name="TxtBasePrice"/>
                             </StackPanel>
                         </UniformGrid>
 
                         <!-- Botones -->
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                            <Button x:Name="BtnNew" Content="Nuevo" Click="BtnNew_Click" Width="90" Margin="0,0,8,0"/>
-                            <Button x:Name="BtnSave" Content="Guardar" Width="90" Click="BtnSave_Click" Background="#4B0082" Foreground="White" Margin="0,0,8,0"/>
-                            <Button x:Name="BtnDelete" Content="Eliminar" Width="90" Background="#B00020" Click="BtnDelete_Click" Foreground="White"/>
+                            <Button x:Name="BtnNew" Content="Create" Click="BtnNew_Click" Background="PaleGreen" Width="90" Margin="0,0,8,0"/>
+                            <Button x:Name="BtnSave" Content="Save" Width="90"  Background="#4B0082" Foreground="White" Margin="0,0,8,0" Click="BtnUpdate_Click"/>
+                            <Button x:Name="BtnDelete" Content="Delete" Width="90" Background="#B00020" Click="BtnDelete_Click" Foreground="White" Margin="0,0,8,0"/>
+                            <Button x:Name="BtnClear" Content="Clear" Width="90"  Click="BtnClear_Click" />
                         </StackPanel>
                     </StackPanel>
                 </Border>

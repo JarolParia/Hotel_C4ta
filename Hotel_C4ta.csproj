@@ -35,6 +35,7 @@
 
   <ItemGroup>
     <Compile Include="View\AdminViews\Sections\DashboardControl.xaml.cs" />
+    <Compile Include="View\AdminViews\Sections\RoomManagementControl.xaml.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -51,6 +52,7 @@
 
   <ItemGroup>
     <Page Include="View\AdminViews\Sections\DashboardControl.xaml" />
+    <Page Include="View\AdminViews\Sections\RoomManagementControl.xaml" />
   </ItemGroup>
 
 </Project>
