@@ -19,20 +19,19 @@ namespace Hotel_C4ta.Controller
             try
             {
                 string sql = "SELECT * FROM Receptionist WHERE ID=@id";
-                using (var cmd = new SqlCommand(sql, conn))
-                using (var reader = cmd.ExecuteReader())
+                using var cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@id", id);
+                using var reader = cmd.ExecuteReader();
+                while (reader.Read())
                 {
-                    while (reader.Read())
+                    return new ReceptionistModel
                     {
-                        return new ReceptionistModel
-                        {
-                            ID = reader.GetInt32(0),
-                            FullName = reader.GetString(1),
-                            Email = reader.GetString(2),
-                            PasswordHashed = reader.GetString(3),
-                            Rol = reader.GetString(4),
-                        };
-                    }
+                        ID = reader.GetInt32(0),
+                        FullName = reader.GetString(1),
+                        Email = reader.GetString(2),
+                        PasswordHashed = reader.GetString(3),
+                        Rol = reader.GetString(4),
+                    };
                 }
             }
             catch (Exception ex)
