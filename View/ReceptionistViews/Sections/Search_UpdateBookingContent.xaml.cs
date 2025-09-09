@@ -1,4 +1,5 @@
-﻿using Hotel_C4ta.Model;
+﻿using Hotel_C4ta.Controller;
+using Hotel_C4ta.Model;
 using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
@@ -23,190 +24,127 @@ namespace Hotel_C4ta.View.ReceptionistViews.Sections
     /// </summary>
     public partial class Search_UpdateBookingContent : UserControl
     {
-        private DatabaseConnection db = new DatabaseConnection();
+        private readonly BookingController _bookingcontroller= new BookingController();
         private int selectedBookingId = -1;
         public Search_UpdateBookingContent()
         {
             InitializeComponent();
-            LoadBookings();
-            LoadClients();
             LoadRooms();
         }
 
-
-        // 🔹 Cargar reservas en el DataGrid
-        private void LoadBookings()
-        {
-            try
-            {
-                using (SqlConnection conn = db.OpenConnection())
-                {
-                    string query = "SELECT * FROM Booking WHERE Status_ NOT IN ('CheckedIn', 'CheckedOut')";
-                    SqlDataAdapter da = new SqlDataAdapter(query, conn);
-                    DataTable dt = new DataTable();
-                    da.Fill(dt);
-                    BookingsGrid.ItemsSource = dt.DefaultView;
-                }
-                db.CloseConnection();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al cargar reservas: " + ex.Message);
-            }
-        }
-
-        // 🔹 Cargar clientes en ComboBox
-        private void LoadClients()
-        {
-            try
-            {
-                using (SqlConnection conn = db.OpenConnection())
-                {
-                    string query = "SELECT Dni FROM Client";
-                    SqlCommand cmd = new SqlCommand(query, conn);
-                    SqlDataReader reader = cmd.ExecuteReader();
-
-                    while (reader.Read())
-                    {
-                        CmbClient.Items.Add(reader["Dni"].ToString());
-                    }
-                }
-                db.CloseConnection();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al cargar clientes: " + ex.Message);
-            }
-        }
-
-        // 🔹 Cargar habitaciones en ComboBox
         private void LoadRooms()
         {
-            try
-            {
-                using (SqlConnection conn = db.OpenConnection())
-                {
-                    string query = "SELECT Number FROM Room WHERE Status_ = 'Disponible'";
-                    SqlCommand cmd = new SqlCommand(query, conn);
-                    SqlDataReader reader = cmd.ExecuteReader();
-
-                    while (reader.Read())
-                    {
-                        CmbRoom.Items.Add(reader["Number"].ToString());
-                    }
-                }
-                db.CloseConnection();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al cargar habitaciones: " + ex.Message);
-            }
-        }
-
-        // 🔹 Seleccionar una reserva en el DataGrid
-        private void BookingsGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (BookingsGrid.SelectedItem is DataRowView row)
-            {
-                selectedBookingId = Convert.ToInt32(row["Id"]);
-
-                CmbClient.SelectedItem = row["DniClient"].ToString();
-                CmbRoom.SelectedItem = row["RoomNumber"].ToString();
-                TxtReceptionist.Text = row["IdRecepcionist"].ToString();
-                DpStartDate.SelectedDate = Convert.ToDateTime(row["StartDate"]);
-                DpEndDate.SelectedDate = Convert.ToDateTime(row["EndDate"]);
-                CmbStatus.Text = row["Status_"].ToString();
-                TxtEstimatedPrice.Text = row["EstimatedPrice"].ToString();
-            }
-        }
-
-        // 🔹 Actualizar reserva
-        private void BtnUpdate_Click(object sender, RoutedEventArgs e)
-        {
-            if (selectedBookingId == -1)
-            {
-                MessageBox.Show("Seleccione una reserva primero.");
-                return;
-            }
-
-            try
-            {
-                using (SqlConnection conn = db.OpenConnection())
-                {
-                    string query = @"UPDATE Booking 
-                                     SET DniClient = @DniClient,
-                                         RoomNumber = @RoomNumber,
-                                         StartDate = @StartDate,
-                                         EndDate = @EndDate,
-                                         Status_ = @Status_,
-                                         EstimatedPrice = @EstimatedPrice
-                                     WHERE Id = @Id";
-
-                    SqlCommand cmd = new SqlCommand(query, conn);
-                    cmd.Parameters.AddWithValue("@DniClient", CmbClient.SelectedItem?.ToString());
-                    cmd.Parameters.AddWithValue("@RoomNumber", CmbRoom.SelectedItem?.ToString());
-                    cmd.Parameters.AddWithValue("@StartDate", DpStartDate.SelectedDate);
-                    cmd.Parameters.AddWithValue("@EndDate", DpEndDate.SelectedDate);
-                    cmd.Parameters.AddWithValue("@Status_", CmbStatus.Text);
-                    cmd.Parameters.AddWithValue("@EstimatedPrice", TxtEstimatedPrice.Text);
-                    cmd.Parameters.AddWithValue("@Id", selectedBookingId);
-
-                    cmd.ExecuteNonQuery();
-                }
-                db.CloseConnection();
-
-                MessageBox.Show("Reserva actualizada correctamente.");
-                LoadBookings();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al actualizar reserva: " + ex.Message);
-            }
-        }
-
-        // 🔹 Eliminar reserva
-        private void BtnDelete_Click(object sender, RoutedEventArgs e)
-        {
-            if (selectedBookingId == -1)
-            {
-                MessageBox.Show("Seleccione una reserva primero.");
-                return;
-            }
-
-            if (MessageBox.Show("¿Está seguro de eliminar la reserva?", "Confirmar", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-            {
-                try
-                {
-                    using (SqlConnection conn = db.OpenConnection())
-                    {
-                        string query = "DELETE FROM Booking WHERE Id = @Id";
-                        SqlCommand cmd = new SqlCommand(query, conn);
-                        cmd.Parameters.AddWithValue("@Id", selectedBookingId);
-                        cmd.ExecuteNonQuery();
-                    }
-                    db.CloseConnection();
-
-                    MessageBox.Show("Reserva eliminada correctamente.");
-                    LoadBookings();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error al eliminar reserva: " + ex.Message);
-                }
-            }
+            var booking = _bookingcontroller.GetPendingBookings();
+            BookingsGrid.ItemsSource = booking;
         }
 
         // 🔹 Cancelar y limpiar formulario
         private void BtnCancel_Click(object sender, RoutedEventArgs e)
         {
             selectedBookingId = -1;
-            CmbClient.SelectedIndex = -1;
-            CmbRoom.SelectedIndex = -1;
-            TxtReceptionist.Text = "";
             DpStartDate.SelectedDate = null;
             DpEndDate.SelectedDate = null;
             CmbStatus.SelectedIndex = -1;
             TxtEstimatedPrice.Text = "";
         }
+
+        private void BookingsGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (BookingsGrid.SelectedItem is BookingModel selectedBooking)
+            {
+                selectedBookingId = selectedBooking.BookingID;
+
+                // Cargar datos en los campos
+                TxtClient.Text = selectedBooking.ClientDNI;
+                TxtRoom.Text = selectedBooking.RoomID.ToString();
+                DpStartDate.SelectedDate = selectedBooking.StartDate;
+                DpEndDate.SelectedDate = selectedBooking.EndDate;
+
+                // Seleccionar estado en el ComboBox
+                CmbStatus.SelectedItem = CmbStatus.Items.Cast<ComboBoxItem>()
+                    .FirstOrDefault(i => i.Content.ToString() == selectedBooking.BookingStatus);
+
+                TxtEstimatedPrice.Text = selectedBooking.EstimatedPrice.ToString("F2");
+            }
+        }
+
+        private void BtnUpdate_Click(object sender, RoutedEventArgs e)
+        {
+            if (selectedBookingId == -1)
+            {
+                MessageBox.Show("Please select a booking to update.");
+                return;
+            }
+
+            if (DpStartDate.SelectedDate == null || DpEndDate.SelectedDate == null)
+            {
+                MessageBox.Show("Please select valid dates.");
+                return;
+            }
+
+            DateTime start = DpStartDate.SelectedDate.Value;
+            DateTime end = DpEndDate.SelectedDate.Value;
+
+            if (end <= start)
+            {
+                MessageBox.Show("End date must be greater than start date.");
+                return;
+            }
+
+            if (!decimal.TryParse(TxtEstimatedPrice.Text, out decimal price))
+            {
+                MessageBox.Show("Invalid estimated price.");
+                return;
+            }
+
+            // Get status from ComboBox
+            string status = (CmbStatus.SelectedItem as ComboBoxItem)?.Content.ToString() ?? "";
+
+            bool updated = _bookingcontroller.UpdateBooking(selectedBookingId, start, end, price, status);
+
+            if (updated)
+            {
+                MessageBox.Show("Booking updated successfully.");
+                LoadRooms(); // refresh the grid
+            }
+            else
+            {
+                MessageBox.Show("Failed to update booking.");
+            }
+        }
+
+        private void BtnDelete_Click(object sender, RoutedEventArgs e)
+        {
+            if (selectedBookingId == -1)
+            {
+                MessageBox.Show("Please select a booking to delete.");
+                return;
+            }
+
+            var result = MessageBox.Show(
+                "Are you sure you want to delete this booking?",
+                "Confirm Delete",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                bool cancelled = _bookingcontroller.SoftDeleteBooking(selectedBookingId);
+
+                if (cancelled)
+                {
+                    MessageBox.Show("Booking deleted successfully.");
+                    LoadRooms(); // Refresh grid
+                    BtnCancel_Click(null, null); // Clear form
+                }
+                else
+                {
+                    MessageBox.Show("Unable to delete the booking.");
+                }
+            }
+        }
+
+
+
     }
 }

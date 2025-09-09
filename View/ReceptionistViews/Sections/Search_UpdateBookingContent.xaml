@@ -12,8 +12,8 @@
         </Grid.RowDefinitions>
 
         <!-- HEADER -->
-        <TextBlock Grid.Row="0"
-                   Text="🔍 Buscar / Editar Reserva"
+        <TextBlock Grid.Row="0" 
+                   Text="🔍 Search / Update Booking"
                    FontSize="20"
                    FontWeight="Bold"
                    Foreground="#4B0082"
@@ -29,8 +29,8 @@
                   CanUserAddRows="False"
                   AlternatingRowBackground="#F5F5F5"
                   RowHeight="32"
-                  SelectionChanged="BookingsGrid_SelectionChanged"
-                  Margin="0,0,0,10">
+                  Margin="0,0,0,10"
+                  SelectionChanged="BookingsGrid_SelectionChanged" >
             <DataGrid.ColumnHeaderStyle>
                 <Style TargetType="DataGridColumnHeader">
                     <Setter Property="Background" Value="#4B0082"/>
@@ -41,14 +41,13 @@
             </DataGrid.ColumnHeaderStyle>
 
             <DataGrid.Columns>
-                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="*" CanUserResize="False"/>
-                <DataGridTextColumn Header="Cliente (DNI)" Binding="{Binding DniClient}" Width="*" CanUserResize="False"/>
-                <DataGridTextColumn Header="Habitación" Binding="{Binding RoomNumber}" Width="*" CanUserResize="False"/>
-                <DataGridTextColumn Header="Recepcionista" Binding="{Binding IdRecepcionist}" Width="*" CanUserResize="False"/>
-                <DataGridTextColumn Header="Fecha Inicio" Binding="{Binding StartDate}" Width="*" CanUserResize="False"/>
-                <DataGridTextColumn Header="Fecha Fin" Binding="{Binding EndDate}" Width="*" CanUserResize="False"/>
-                <DataGridTextColumn Header="Estado" Binding="{Binding Status_}" Width="*" CanUserResize="False"/>
-                <DataGridTextColumn Header="Precio Estimado" Binding="{Binding EstimatedPrice}" Width="*" CanUserResize="False"/>
+                <DataGridTextColumn Header="ID" Binding="{Binding BookingID}" Width="*" CanUserResize="False"/>
+                <DataGridTextColumn Header="Client (DNI)" Binding="{Binding ClientDNI}" Width="*" CanUserResize="False"/>
+                <DataGridTextColumn Header="Room" Binding="{Binding RoomID}" Width="*" CanUserResize="False"/>
+                <DataGridTextColumn Header="Start Date" Binding="{Binding StartDate}" Width="*" CanUserResize="False"/>
+                <DataGridTextColumn Header="End Date" Binding="{Binding EndDate}" Width="*" CanUserResize="False"/>
+                <DataGridTextColumn Header="Status" Binding="{Binding BookingStatus}" Width="*" CanUserResize="False"/>
+                <DataGridTextColumn Header="Estimated Price" Binding="{Binding EstimatedPrice}" Width="*" CanUserResize="False"/>
             </DataGrid.Columns>
         </DataGrid>
 
@@ -56,7 +55,7 @@
         <Border Grid.Row="2" Background="White" CornerRadius="8"
                 BorderBrush="#E0E0E0" BorderThickness="1" Padding="12">
             <StackPanel>
-                <TextBlock Text="Detalles de la Reserva"
+                <TextBlock Text="Booking Details"
                            FontSize="16"
                            FontWeight="Bold"
                            Foreground="#4B0082"
@@ -64,48 +63,45 @@
 
                 <UniformGrid Columns="2" Rows="4" Margin="0,0,0,10">
                     <StackPanel Margin="5">
-                        <TextBlock Text="Cliente (DNI)"/>
-                        <ComboBox x:Name="CmbClient"/>
+                        <TextBlock Text="Client (DNI)" IsEnabled="False"/>
+                        <TextBox x:Name="TxtClient"/>
+                    </StackPanel>
+
+                    <StackPanel Margin="5">
+                        <TextBlock Text="Room" IsEnabled="False"/>
+                        <TextBox x:Name="TxtRoom"/>
                     </StackPanel>
                     <StackPanel Margin="5">
-                        <TextBlock Text="Habitación"/>
-                        <ComboBox x:Name="CmbRoom"/>
-                    </StackPanel>
-                    <StackPanel Margin="5">
-                        <TextBlock Text="Recepcionista"/>
-                        <TextBox x:Name="TxtReceptionist" IsReadOnly="True"/>
-                    </StackPanel>
-                    <StackPanel Margin="5">
-                        <TextBlock Text="Estado"/>
-                        <ComboBox x:Name="CmbStatus">
-                            <ComboBoxItem Content="Pendiente"/>
-                            <ComboBoxItem Content="Confirmada"/>
-                            <ComboBoxItem Content="Cancelada"/>
+                        <TextBlock Text="Status"/>
+                        <ComboBox x:Name="CmbStatus" SelectedIndex="0">
+                            <ComboBoxItem Content="Pending"/>
+                            <ComboBoxItem Content="Confirmed"/>
+                            <ComboBoxItem Content="Canceled"/>
                         </ComboBox>
                     </StackPanel>
                     <StackPanel Margin="5">
-                        <TextBlock Text="Fecha Inicio"/>
+                        <TextBlock Text="Start Date"/>
                         <DatePicker x:Name="DpStartDate"/>
                     </StackPanel>
                     <StackPanel Margin="5">
-                        <TextBlock Text="Fecha Fin"/>
+                        <TextBlock Text="End Date"/>
                         <DatePicker x:Name="DpEndDate"/>
                     </StackPanel>
                     <StackPanel Margin="5">
-                        <TextBlock Text="Precio Estimado"/>
+                        <TextBlock Text="Estimated Price"/>
                         <TextBox x:Name="TxtEstimatedPrice" IsReadOnly="True"/>
                     </StackPanel>
                 </UniformGrid>
 
                 <!-- BOTONES -->
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                    <Button x:Name="BtnUpdate" Content="Actualizar"
+                    <Button x:Name="BtnUpdate" Content="Update"
                             Width="100" Margin="0,0,8,0"
                             Background="#4B0082" Foreground="White" Click="BtnUpdate_Click"/>
-                    <Button x:Name="BtnDelete" Content="Eliminar"
+                    <Button x:Name="BtnDelete" Content="Delete"
                             Width="90" Margin="0,0,8,0"
-                            Background="#B00020" Foreground="White" Click="BtnDelete_Click"/>
-                    <Button x:Name="BtnCancel" Content="Cancelar"
+                            Background="#B00020" Foreground="White" Click="BtnDelete_Click" />
+                    <Button x:Name="BtnCancel" Content="Cancel"
                             Width="90" Background="#888" Foreground="White" Click="BtnCancel_Click"/>
                 </StackPanel>
             </StackPanel>

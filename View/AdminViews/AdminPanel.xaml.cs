@@ -32,11 +32,11 @@ namespace Hotel_C4ta.View.AdminViews
             ContentArea.Content = new DashboardControl();
         }
 
-        /*private void UsersManagement_Click(object sender, RoutedEventArgs e)
+        private void UsersManagement_Click(object sender, RoutedEventArgs e)
         {
             ContentArea.Content = new UserManagementControl();
         }
-        */
+        
         private void RoomsManagement_Click(object sender, RoutedEventArgs e)
         {
             ContentArea.Content = new RoomManagementControl();

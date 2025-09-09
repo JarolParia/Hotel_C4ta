@@ -1,4 +1,5 @@
-﻿using Hotel_C4ta.Utils;
+﻿using Hotel_C4ta.Model;
+using Hotel_C4ta.Utils;
 using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
@@ -13,88 +14,99 @@ namespace Hotel_C4ta.Controller
 {
     public class UserController
     {
-        // STILL NOT DEFINED - ADMIN VIEWS - USERS MANAGEMENT
-        public UserDTO CargarUsuario(int id)
+        private readonly AdministratorController _adminCtrl = new AdministratorController();
+        private readonly ReceptionistController _recepCtrl = new ReceptionistController();
+
+        public UserModel _UserModel;
+        // Load Users
+
+        public List<UserModel> GetAllUsers()
         {
             using var conn = DBContext.OpenConnection();
+            var users = new List<UserModel>();
+
             try
             {
-                // Buscar en admin
-                string query = "SELECT ID, FullName, Rol AS ExtraInfo, PasswordHashed FROM Administrator WHERE ID=@id " +
-                               "UNION " +
-                               "SELECT ID, FullName, Code AS ExtraInfo, PasswordHashed FROM Receptionist WHERE ID=@id";
+                string sql = @"
+                            SELECT ID, FullName, Email, PasswordHashed, Rol FROM Administrator
+                            UNION
+                            SELECT ID, FullName, Email, PasswordHashed, Rol FROM Receptionist";
 
-                using var cmd = new SqlCommand(query, conn);
-
-                cmd.Parameters.AddWithValue("@id", id);
+                using (var cmd = new SqlCommand(sql, conn))
                 using (var reader = cmd.ExecuteReader())
                 {
-                    if (reader.Read())
+                    while (reader.Read())
                     {
-                        return new UserDTO
+
+                        string rol = reader.GetString(4);
+                        UserModel user;
+
+                        if (rol == "Admin")
                         {
-                            ID = reader.GetInt32(0),
-                            FullName = reader.GetString(1),
-                            RoleCode = reader.GetString(2),
-                            PasswordHashed = reader.GetString(3)
-                        };
+                            user = new AdministratorModel();
+                        }
+                        else if (rol == "Recep")
+                        {
+                            user = new ReceptionistModel();
+                        }
+                        else
+                        {
+                            throw new Exception("Unknow rol" + rol);
+                        }
+
+                        user.ID = reader.GetInt32(0);
+                        user.FullName = reader.GetString(1);
+                        user.Email = reader.GetString(2);
+                        user.PasswordHashed = reader.GetString(3);
+                        user.Rol = rol;
+
+                        users.Add(user);
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al cargar usuario: " + ex.Message);
+                MessageBox.Show("Error loading users: " + ex.Message);
+
             }
-            return null;
+
+            return users;
+
         }
 
-        public bool GuardarUsuario(int? userId, string nombre, string rolCodigo, string password) // REVIEWREVIEWREVIEWREVIEWREVIEWREVIEWREVIEW
+        // Create Users
+        public void CreateUser(UserModel user)
         {
-            using var conn = DBContext.OpenConnection();
-            try
-            {
-                string query;
-
-                if (userId == null) // 👈 Crear
-                {
-                    if (rolCodigo.ToLower().Contains("admin"))
-                        query = "INSERT INTO Administrator (FullName, Rol, PasswordHashed) VALUES (@fullname, @rol, @passwordhashed)";
-                    else
-                        query = "INSERT INTO Receptionist (FullName, Code, PasswordHashed) VALUES (@fullname, @code, @passwordhashed)";
-                }
-                else // 👈 Editar
-                {
-                    if (rolCodigo.ToLower().Contains("admin"))
-                        query = "UPDATE Administrator SET FullName=@fullname, Rol=@rol, PasswordHashed=@passwordhashed WHERE Id=@id";
-                    else
-                        query = "UPDATE Receptionist SET FullName=@fullname, Code=@code, PasswordHashed=@passwordhashed WHERE Id=@id";
-                }
-
-                using (var cmd = new SqlCommand(query, conn))
-                {
-                    cmd.Parameters.AddWithValue("@fullname", nombre);
-                    if (rolCodigo.ToLower().Contains("admin"))
-                        cmd.Parameters.AddWithValue("@rol", rolCodigo);
-                    else
-                        cmd.Parameters.AddWithValue("@code", rolCodigo);
-
-                    cmd.Parameters.AddWithValue("@passwordhashed", password);
-
-                    if (userId != null)
-                        cmd.Parameters.AddWithValue("@id", userId);
-
-                    cmd.ExecuteNonQuery();
-
-                    return true;
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al guardar usuario: " + ex.Message);
-            }
-
-            return false;
-
+            if (user is AdministratorModel admin)
+                _adminCtrl.CreateAdministrator(admin);
+            else if (user is ReceptionistModel recep)
+                _recepCtrl.CreateReceptionist(recep);
+            else
+                throw new Exception("Modelo no válido");
         }
+
+
+        // Update Users
+        public void UpdateUser(UserModel user)
+        {
+            if (user.Rol == "Admin")
+                _adminCtrl.UpdateAdministrator((AdministratorModel)user);
+            else if (user.Rol == "Recep")
+                _recepCtrl.UpdateReceptionist((ReceptionistModel)user);
+            else
+                throw new Exception("Unknow Rol");
+        }
+
+        // Delete Users 
+        public void DeleteUser(UserModel user)
+        {
+            if (user.Rol == "Admin")
+                _adminCtrl.DeleteAdministrator(user.ID);
+            else if (user.Rol == "Recep")
+                _recepCtrl.DeleteReceptionist(user.ID);
+            else
+                throw new Exception("Unknow Rol");
+        }
+
     }
 }
