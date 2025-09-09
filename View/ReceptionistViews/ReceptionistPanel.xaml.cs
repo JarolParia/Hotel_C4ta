@@ -56,25 +56,20 @@ namespace Hotel_C4ta.View.ReceptionistViews
             ContentArea.Content = new RegisterCheckInContent();
         }
 
-        /*
         private void RegisterCheckOut_Click(object sender, RoutedEventArgs e)
         {
             ContentArea.Content = new RegisterCheckOutContent();
         }
-       */
 
         private void Search_UpdateBooking_Click(object sender, RoutedEventArgs e)
         {
             ContentArea.Content = new Search_UpdateBookingContent();
         }
 
-        /*
-
         private void SeeAllBills_Click(object sender, RoutedEventArgs e)
         {
             ContentArea.Content = new SeeAllBillsContent();
         }
-        */
 
         private void LogOut_Click(object sender, RoutedEventArgs e)
         {

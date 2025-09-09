@@ -1,4 +1,5 @@
-﻿using Hotel_C4ta.Model;
+﻿using Hotel_C4ta.Controller;
+using Hotel_C4ta.Model;
 using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,6 @@ namespace Hotel_C4ta.View.ReceptionistViews.Sections
     /// </summary>
     public partial class SeeAllBillsContent : UserControl
     {
-        private DatabaseConnection _db = new DatabaseConnection();
 
         public SeeAllBillsContent()
         {
@@ -25,7 +25,7 @@ namespace Hotel_C4ta.View.ReceptionistViews.Sections
         {
             var result = new List<dynamic>();
 
-            using (var conn = _db.OpenConnection())
+            using (var conn = DBContext.OpenConnection())
             {
                 if (conn == null) return;
 
@@ -61,10 +61,6 @@ namespace Hotel_C4ta.View.ReceptionistViews.Sections
                 catch (Exception ex)
                 {
                     MessageBox.Show("Error al cargar facturas/pagos: " + ex.Message);
-                }
-                finally
-                {
-                    _db.CloseConnection();
                 }
             }
 

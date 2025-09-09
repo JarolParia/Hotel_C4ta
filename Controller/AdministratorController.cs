@@ -12,6 +12,7 @@ namespace Hotel_C4ta.Controller
     public class AdministratorController
     {
         public AdministratorModel _administratorModel;
+
         public AdministratorModel GetAdministrators(int id)
         {
             using var conn = DBContext.OpenConnection();

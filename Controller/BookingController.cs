@@ -14,6 +14,38 @@ namespace Hotel_C4ta.Controller
     {
         public BookingModel _bookingModel;
 
+        public BookingModel GetBooking(int bookingId)
+        {
+            using var conn = DBContext.OpenConnection();
+
+            try
+            {
+                string sql = "SELECT * FROM Booking WHERE BookingID=@bookingId";
+                using var cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@bookingId", bookingId);
+                using var reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    return new BookingModel
+                    {
+                        BookingID = reader.GetInt32(0),
+                        StartDate = reader.GetDateTime(1),
+                        EndDate = reader.GetDateTime(2),
+                        BookingStatus = reader.GetString(3),
+                        EstimatedPrice = reader.GetDecimal(4),
+                        ClientDNI = reader.GetString(5),
+                        ReceptionistID = reader.GetInt32(6),
+                        RoomID = reader.GetInt32(7),
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error loading booking: " + ex.Message);
+            }
+            return null;
+        }
+
         public List<BookingModel> GetPendingBookings()
         {
             var bookings = new List<BookingModel>();
@@ -25,6 +57,44 @@ namespace Hotel_C4ta.Controller
                     string sql = @"SELECT BookingID, StartDate, EndDate, BookingStatus, EstimatedPrice, ClientDNI, ReceptionistID, RoomID
                                    FROM Booking
                                    WHERE BookingStatus = 'Pending'";
+                    using (var cmd = new SqlCommand(sql, conn))
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            bookings.Add(new BookingModel
+                            {
+                                BookingID = reader.GetInt32(0),
+                                StartDate = reader.GetDateTime(1),
+                                EndDate = reader.GetDateTime(2),
+                                BookingStatus = reader.IsDBNull(3) ? "" : reader.GetString(3),
+                                EstimatedPrice = reader.IsDBNull(4) ? 0 : reader.GetDecimal(4),
+                                ClientDNI = reader.GetString(5),
+                                ReceptionistID = reader.GetInt32(6),
+                                RoomID = reader.GetInt32(7)
+                            });
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error loading bookings: " + ex.Message);
+                }
+            }
+            return bookings;
+        }
+
+        public List<BookingModel> GetCheckedInBookings()
+        {
+            var bookings = new List<BookingModel>();
+            using (var conn = DBContext.OpenConnection())
+            {
+                if (conn == null) return bookings;
+                try
+                {
+                    string sql = @"SELECT BookingID, StartDate, EndDate, BookingStatus, EstimatedPrice, ClientDNI, ReceptionistID, RoomID
+                                   FROM Booking
+                                   WHERE BookingStatus = 'CheckedIn'";
                     using (var cmd = new SqlCommand(sql, conn))
                     using (var reader = cmd.ExecuteReader())
                     {
@@ -165,8 +235,6 @@ namespace Hotel_C4ta.Controller
                 MessageBox.Show("Error updating booking status: " + ex.Message);
                 return false;
             }
-
-
         }
     }
 }

@@ -44,7 +44,7 @@ namespace Hotel_C4ta.Controller
             return null;
         }
 
-        public ClientModel GetClient(int dni)
+        public ClientModel GetClient(string dni)
         {
             using var conn = DBContext.OpenConnection();
 

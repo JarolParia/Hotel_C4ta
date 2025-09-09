@@ -13,6 +13,35 @@ namespace Hotel_C4ta.Controller
     {
         public RoomModel _roomModel;
 
+        public RoomModel GetRoom(int roomId)
+        {
+            using var conn = DBContext.OpenConnection();
+
+            try
+            {
+                string sql = "SELECT * FROM Room WHERE RoomID=@roomId";
+                using var cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@roomId", roomId);
+                using var reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    return new RoomModel
+                    {
+                        RoomID = reader.GetInt32(0),
+                        RoomFloor = reader.GetInt32(1),
+                        RoomStatus = reader.GetString(2),
+                        RoomType = reader.GetString(3),
+                        Capacity = reader.GetInt32(4),
+                        BasePrice = reader.GetDecimal(5)
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error loading room: " + ex.Message);
+            }
+            return null;
+        }
         public List<RoomModel> GetAllRooms()
         {
             using var conn = DBContext.OpenConnection();
@@ -168,8 +197,7 @@ namespace Hotel_C4ta.Controller
             {
                 MessageBox.Show("Error deleting Room: " + ex.Message);
             }
-        }
-        
+        }        
     }
 }
 // CRUD of rooms Melo

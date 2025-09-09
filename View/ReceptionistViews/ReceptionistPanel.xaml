@@ -163,13 +163,12 @@
 
                     <Button Content="Register Check-Ins"
                             Style="{StaticResource SidebarLinkButton}"
-                            Click="RegisterCheckIn_Click"
-                            
+                            Click="RegisterCheckIn_Click"                            
                             Margin="25,5,0,0" />
 
                     <Button Content="Register Check-Outs"
                             Style="{StaticResource SidebarLinkButton}"
-                            
+                            Click="RegisterCheckOut_Click"
                             Margin="25,5,0,0"/>
 
                     <!-- Bills -->
@@ -177,7 +176,7 @@
 
                     <Button Content="See All Bills"
                             Style="{StaticResource SidebarLinkButton}"
-                            
+                            Click="SeeAllBills_Click"
                             Margin="25,5,0,0"/>
                 </StackPanel>
 

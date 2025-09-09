@@ -15,8 +15,8 @@ namespace Hotel_C4ta.Utils
         /// </summary>
         public static byte[] GenerateInvoice(
             string clientName,
-            string dni,
-            string roomNumber,
+            string clientDni,
+            int roomId,
             DateTime startDate,
             DateTime endDate,
             decimal total,
@@ -26,20 +26,19 @@ namespace Hotel_C4ta.Utils
             try
             {
                 // Valores por defecto
-                clientName ??= "Cliente desconocido";
-                dni ??= "Sin DNI";
-                roomNumber ??= "0";
-                paymentMethod ??= "No especificado";
+                clientName ??= "Unknown client";
+                clientDni ??= "Without DNI";
+                paymentMethod ??= "No specified";
 
                 // Nombre seguro para archivo
-                string safeDni = dni.Replace(" ", "").Replace("/", "").Replace(":", "");
-                string fileName = $"Factura_{safeDni}_{DateTime.Now:yyyyMMddHHmmss}.pdf";
+                string safeDni = clientDni.Replace(" ", "").Replace("/", "").Replace(":", "");
+                string fileName = $"Bill_{safeDni}_{DateTime.Now:yyyyMMddHHmmss}.pdf";
                 string desktopPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), fileName);
 
                 // Crear documento
                 using (PdfDocument document = new PdfDocument())
                 {
-                    document.Info.Title = "Factura Hotel C4TA";
+                    document.Info.Title = "Bill Hotel C4TA";
                     PdfPage page = document.AddPage();
                     XGraphics gfx = XGraphics.FromPdfPage(page);
 
@@ -59,18 +58,18 @@ namespace Hotel_C4ta.Utils
                     y += 30;
 
                     // Datos del cliente
-                    gfx.DrawString("Factura emitida a:", subHeaderFont, XBrushes.Black, new XPoint(50, y));
+                    gfx.DrawString("Bill issued to:", subHeaderFont, XBrushes.Black, new XPoint(50, y));
                     y += 25;
-                    gfx.DrawString($"Nombre: {clientName}", bodyFont, XBrushes.Black, new XPoint(60, y)); y += 20;
-                    gfx.DrawString($"DNI: {dni}", bodyFont, XBrushes.Black, new XPoint(60, y)); y += 20;
-                    gfx.DrawString($"Habitación: {roomNumber}", bodyFont, XBrushes.Black, new XPoint(60, y)); y += 30;
+                    gfx.DrawString($"Name: {clientName}", bodyFont, XBrushes.Black, new XPoint(60, y)); y += 20;
+                    gfx.DrawString($"DNI: {clientDni}", bodyFont, XBrushes.Black, new XPoint(60, y)); y += 20;
+                    gfx.DrawString($"Room: {roomId}", bodyFont, XBrushes.Black, new XPoint(60, y)); y += 30;
 
                     // Detalles de la reserva
-                    gfx.DrawString("Detalles de la reserva:", subHeaderFont, XBrushes.Black, new XPoint(50, y));
+                    gfx.DrawString("Booking details:", subHeaderFont, XBrushes.Black, new XPoint(50, y));
                     y += 25;
-                    gfx.DrawString($"Desde: {startDate:dd/MM/yyyy}", bodyFont, XBrushes.Black, new XPoint(60, y)); y += 20;
-                    gfx.DrawString($"Hasta: {endDate:dd/MM/yyyy}", bodyFont, XBrushes.Black, new XPoint(60, y)); y += 20;
-                    gfx.DrawString($"Método de pago: {paymentMethod}", bodyFont, XBrushes.Black, new XPoint(60, y)); y += 30;
+                    gfx.DrawString($"From: {startDate:dd/MM/yyyy}", bodyFont, XBrushes.Black, new XPoint(60, y)); y += 20;
+                    gfx.DrawString($"To: {endDate:dd/MM/yyyy}", bodyFont, XBrushes.Black, new XPoint(60, y)); y += 20;
+                    gfx.DrawString($"Payment method: {paymentMethod}", bodyFont, XBrushes.Black, new XPoint(60, y)); y += 30;
 
                     // Línea divisoria
                     gfx.DrawLine(XPens.Gray, 40, y, page.Width - 40, y);
@@ -84,7 +83,7 @@ namespace Hotel_C4ta.Utils
                     // Pie de página
                     gfx.DrawLine(XPens.Gray, 40, y, page.Width - 40, y);
                     y += 30;
-                    gfx.DrawString("Gracias por hospedarse en Hotel C4TA", footerFont, XBrushes.Gray, new XPoint(180, y));
+                    gfx.DrawString("Thank you for staying at Hotel C4TA", footerFont, XBrushes.Gray, new XPoint(180, y));
 
                     // Guardar en memoria (para DB)
                     using (var ms = new MemoryStream())
@@ -104,7 +103,7 @@ namespace Hotel_C4ta.Utils
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error PDF: {ex.Message}");
+                MessageBox.Show($"PDF Error: {ex.Message}");
                 throw;
             }
         }
@@ -112,17 +111,17 @@ namespace Hotel_C4ta.Utils
         /// <summary>
         /// Abre el PDF desde un arreglo de bytes (lo guarda temporalmente).
         /// </summary>
-        public static void OpenInvoice(byte[] pdfBytes, int billNumber)
+        public static void OpenInvoice(byte[] pdfBytes, int billId)
         {
             try
             {
-                string tempFile = Path.Combine(Path.GetTempPath(), $"Factura_{billNumber}.pdf");
+                string tempFile = Path.Combine(Path.GetTempPath(), $"Bill_{billId}.pdf");
                 File.WriteAllBytes(tempFile, pdfBytes);
                 Process.Start(new ProcessStartInfo(tempFile) { UseShellExecute = true });
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"No se pudo abrir el PDF: {ex.Message}");
+                MessageBox.Show($"Could not open PDF: {ex.Message}");
             }
         }
     }

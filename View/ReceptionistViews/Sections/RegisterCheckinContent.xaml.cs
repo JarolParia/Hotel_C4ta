@@ -67,7 +67,7 @@ namespace Hotel_C4ta.View.ReceptionistViews.Sections
 
             if (updated)
             {
-                MessageBox.Show("✅ check-in successful.");
+                MessageBox.Show("✅ Check-in successful.");
                 LoadPendingsBookings();
                 LblBookingInfo.Text = "(none)";
                 _selectedBookingId = 0;

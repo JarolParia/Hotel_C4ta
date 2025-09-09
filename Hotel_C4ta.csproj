@@ -16,17 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="View\ReceptionistViews\Sections\RegisterCheckoutContent.xaml.cs" />
-    <Compile Remove="View\ReceptionistViews\Sections\SeeAllBillsContent.xaml.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Remove="Resources\LogoHotel.jpg" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Remove="View\ReceptionistViews\Sections\RegisterCheckoutContent.xaml" />
-    <Page Remove="View\ReceptionistViews\Sections\SeeAllBillsContent.xaml" />
   </ItemGroup>
 
   <ItemGroup>

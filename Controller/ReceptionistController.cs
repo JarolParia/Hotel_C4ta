@@ -12,6 +12,7 @@ namespace Hotel_C4ta.Controller
     public class ReceptionistController
     {
         public ReceptionistModel _receptionistModel;
+
         public ReceptionistModel GetReceptionist(int id)
         {
             using var conn = DBContext.OpenConnection();
@@ -98,7 +99,5 @@ namespace Hotel_C4ta.Controller
                 MessageBox.Show("Error deleting Receptionist User:" + ex.Message);
             }
         }
-
-
     }
 }

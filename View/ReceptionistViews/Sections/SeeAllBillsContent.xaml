@@ -38,13 +38,13 @@
                     </DataGrid.ColumnHeaderStyle>
 
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Factura Nº" Binding="{Binding Number}" Width="*"/>
-                        <DataGridTextColumn Header="Fecha" Binding="{Binding IssueDate}" Width="*"/>
+                        <DataGridTextColumn Header="Bill Nº" Binding="{Binding BillID}" Width="*"/>
+                        <DataGridTextColumn Header="Date" Binding="{Binding IssueDate}" Width="*"/>
                         <DataGridTextColumn Header="Total" Binding="{Binding Total}" Width="*"/>
-                        <DataGridTextColumn Header="Reserva" Binding="{Binding IdBooking}" Width="*"/>
-                        <DataGridTextColumn Header="Método Pago" Binding="{Binding PaymentMethod}" Width="*"/>
-                        <DataGridTextColumn Header="Monto Pago" Binding="{Binding Amount}" Width="*"/>
-                        <DataGridTextColumn Header="Fecha Pago" Binding="{Binding PaymentDate}" Width="*"/>
+                        <DataGridTextColumn Header="Booking Nº" Binding="{Binding BookingID}" Width="*"/>
+                        <DataGridTextColumn Header="Payment Method" Binding="{Binding PaymentMethod}" Width="*"/>
+                        <DataGridTextColumn Header="Total Amount" Binding="{Binding Amount}" Width="*"/>
+                        <DataGridTextColumn Header="Payment Date" Binding="{Binding PaymentDate}" Width="*"/>
 
                         <!-- Columna para abrir PDF -->
                         <DataGridTemplateColumn Header="Factura PDF" Width="*">
