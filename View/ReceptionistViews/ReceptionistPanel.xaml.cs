@@ -51,10 +51,12 @@ namespace Hotel_C4ta.View.ReceptionistViews
             ContentArea.Content = new CreateBookingContent(_receptionistId);
         }
 
-       /*private void RegisterCheckIn_Click(object sender, RoutedEventArgs e)
+       private void RegisterCheckIn_Click(object sender, RoutedEventArgs e)
         {
             ContentArea.Content = new RegisterCheckInContent();
         }
+
+        /*
         private void RegisterCheckOut_Click(object sender, RoutedEventArgs e)
         {
             ContentArea.Content = new RegisterCheckOutContent();

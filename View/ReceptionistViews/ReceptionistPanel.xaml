@@ -163,6 +163,7 @@
 
                     <Button Content="Register Check-Ins"
                             Style="{StaticResource SidebarLinkButton}"
+                            Click="RegisterCheckIn_Click"
                             
                             Margin="25,5,0,0" />
 

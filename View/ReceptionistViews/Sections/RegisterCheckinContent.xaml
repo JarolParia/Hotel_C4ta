@@ -41,12 +41,12 @@
                     </DataGrid.ColumnHeaderStyle>
 
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="*" CanUserResize="False"/>
-                        <DataGridTextColumn Header="Cliente" Binding="{Binding _DniClient}" Width="*" CanUserResize="False"/>
-                        <DataGridTextColumn Header="Habitación" Binding="{Binding _RoomNumber}" Width="*" CanUserResize="False"/>
-                        <DataGridTextColumn Header="Inicio" Binding="{Binding _StartDate}" Width="*" CanUserResize="False"/>
-                        <DataGridTextColumn Header="Fin" Binding="{Binding _EndDate}" Width="*" CanUserResize="False"/>
-                        <DataGridTextColumn Header="Estado" Binding="{Binding _Status}" Width="*" CanUserResize="False"/>
+                        <DataGridTextColumn Header="Id" Binding="{Binding BookingID}" Width="*" CanUserResize="False"/>
+                        <DataGridTextColumn Header="Client" Binding="{Binding ClientDNI}" Width="*" CanUserResize="False"/>
+                        <DataGridTextColumn Header="Room" Binding="{Binding RoomID}" Width="*" CanUserResize="False"/>
+                        <DataGridTextColumn Header="Start" Binding="{Binding StartDate}" Width="*" CanUserResize="False"/>
+                        <DataGridTextColumn Header="End" Binding="{Binding EndDate}" Width="*" CanUserResize="False"/>
+                        <DataGridTextColumn Header="Status" Binding="{Binding BookingStatus}" Width="*" CanUserResize="False"/>
                     </DataGrid.Columns>
                 </DataGrid>
 
@@ -54,18 +54,18 @@
                 <Border Grid.Row="2" Background="White" CornerRadius="8" Padding="12"
                         BorderBrush="#E0E0E0" BorderThickness="1" Margin="0,10,0,0">
                     <StackPanel>
-                        <TextBlock Text="Confirmar Check-In" FontSize="16" FontWeight="Bold"
+                        <TextBlock Text="Confirm Check-In" FontSize="16" FontWeight="Bold"
                                    Foreground="#4B0082" Margin="0,0,0,10"/>
 
                         <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                            <TextBlock Text="Reserva seleccionada: " FontWeight="Bold"/>
-                            <TextBlock x:Name="LblBookingInfo" Text="(ninguna)" Foreground="#4B0082"/>
+                            <TextBlock Text="Booking Selected: " FontWeight="Bold"/>
+                            <TextBlock x:Name="LblBookingInfo" Text="(none)" Foreground="#4B0082"/>
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                            <Button x:Name="BtnCheckIn" Content="Confirmar Check-In"
-                                    Width="150" Background="#4B0082" Foreground="White" Margin="0,0,8,0" Click="BtnCheckIn_Click"/>
-                            <Button x:Name="BtnCancel" Content="Cancelar" Width="100" Click="BtnCancel_Click"/>
+                            <Button x:Name="BtnCheckIn" Content="Confirm Check-In" Click="BtnCheckIn_Click"
+                                    Width="150" Background="#4B0082" Foreground="White" Margin="0,0,8,0" />
+                            <Button x:Name="BtnCancel" Content="Cancel" Width="100" Click="BtnCancel_Click"/>
                         </StackPanel>
                     </StackPanel>
                 </Border>

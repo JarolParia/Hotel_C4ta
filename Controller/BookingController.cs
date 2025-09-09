@@ -72,7 +72,7 @@ namespace Hotel_C4ta.Controller
                     cmd.Parameters.AddWithValue("@roomid", roomid);
                     cmd.ExecuteNonQuery();
                 }
-                return true;       
+                return true;
             }
             catch (Exception ex)
             {
@@ -140,7 +140,33 @@ namespace Hotel_C4ta.Controller
             }
         }
 
+        public bool ChangeBookingStatus(int bookingId, string newStatus)
+        {
+            using var conn = DBContext.OpenConnection();
+            if (conn == null) return false;
+
+            try
+            {
+                string sql = @"UPDATE Booking
+                       SET BookingStatus = @status
+                       WHERE BookingID = @id";
+
+                using (var cmd = new SqlCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@status", newStatus);
+                    cmd.Parameters.AddWithValue("@id", bookingId);
+
+                    int rowsAffected = cmd.ExecuteNonQuery();
+                    return rowsAffected > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error updating booking status: " + ex.Message);
+                return false;
+            }
 
 
+        }
     }
 }

@@ -14,6 +14,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Hotel_C4ta.Controller;
+
 
 namespace Hotel_C4ta.View.ReceptionistViews.Sections
 {
@@ -22,139 +24,58 @@ namespace Hotel_C4ta.View.ReceptionistViews.Sections
     /// </summary>
     public partial class RegisterCheckInContent : UserControl
     {
-        private DatabaseConnection _db = new DatabaseConnection();
         private int _selectedBookingId = 0;
+        private BookingController _BookingCtrl = new BookingController();
 
         public RegisterCheckInContent()
         {
             InitializeComponent();
-            LoadPendingBookings();
+            LoadPendingsBookings();
         }
 
-        private void LoadPendingBookings()
+        public void LoadPendingsBookings()
         {
-            var bookings = new List<BookingModel>();
-
-            using (var conn = _db.OpenConnection())
-            {
-                if (conn == null) return;
-
-                try
-                {
-                    string sql = @"SELECT Id, StartDate, EndDate, Status_, EstimatedPrice, DniClient, IdRecepcionist, RoomNumber
-                                   FROM Booking
-                                   WHERE Status_ = 'Pendiente'";
-
-                    using (var cmd = new SqlCommand(sql, conn))
-                    using (var reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            bookings.Add(new BookingModel
-                            {
-                                _Id = reader.GetInt32(0),
-                                _StartDate = reader.GetDateTime(1),
-                                _EndDate = reader.GetDateTime(2),
-                                _Status = reader.IsDBNull(3) ? "" : reader.GetString(3),
-                                _EstimatedPrice = reader.IsDBNull(4) ? 0 : (double)reader.GetDecimal(4),
-                                _DniClient = reader.GetString(5),
-                                _IdReceptionist = reader.GetInt32(6),
-                                _RoomNumber = reader.GetInt32(7)
-                            });
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error al cargar reservas: " + ex.Message);
-                }
-                finally
-                {
-                    _db.CloseConnection();
-                }
-            }
-
-            BookingsGrid.ItemsSource = bookings;
+            var pendings = _BookingCtrl.GetPendingBookings();
+            BookingsGrid.ItemsSource = pendings;
         }
+
 
         private void BookingsGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (BookingsGrid.SelectedItem is BookingModel booking)
             {
-                _selectedBookingId = booking._Id;
-                LblBookingInfo.Text = $"#{booking._Id} - Cliente: {booking._DniClient}, Habitación: {booking._RoomNumber}";
+                _selectedBookingId = booking.BookingID;
+                LblBookingInfo.Text = $"Booking #{booking.BookingID} - Client: {booking.ClientDNI}, Room: {booking.RoomID}";
+            }
+            else
+            {
+                _selectedBookingId = 0;
+                LblBookingInfo.Text = "(none)";
             }
         }
+
 
         private void BtnCheckIn_Click(object sender, RoutedEventArgs e)
         {
             if (_selectedBookingId == 0)
             {
-                MessageBox.Show("Selecciona una reserva para hacer Check-In.");
+                MessageBox.Show("Select a reservation first.");
                 return;
             }
 
-            using (var conn = _db.OpenConnection())
+            bool updated = _BookingCtrl.ChangeBookingStatus(_selectedBookingId, "CheckedIn");
+
+            if (updated)
             {
-                if (conn == null) return;
-
-                SqlTransaction transaction = null;
-
-                try
-                {
-                    transaction = conn.BeginTransaction();
-
-                    // 1. Actualizar el estado de la reserva
-                    string sqlBooking = @"UPDATE Booking
-                                  SET Status_ = 'CheckedIn'
-                                  WHERE Id = @id";
-
-                    using (var cmd = new SqlCommand(sqlBooking, conn, transaction))
-                    {
-                        cmd.Parameters.AddWithValue("@id", _selectedBookingId);
-                        cmd.ExecuteNonQuery();
-                    }
-
-                    // 2. Obtener el número de habitación de esa reserva
-                    int roomNumber = 0;
-                    string sqlGetRoom = "SELECT RoomNumber FROM Booking WHERE Id = @id";
-
-                    using (var cmd = new SqlCommand(sqlGetRoom, conn, transaction))
-                    {
-                        cmd.Parameters.AddWithValue("@id", _selectedBookingId);
-                        roomNumber = (int)cmd.ExecuteScalar();
-                    }
-
-                    // 3. Actualizar estado de la habitación a "Ocupada"
-                    string sqlRoom = @"UPDATE Room
-                               SET Status_ = 'Ocupada'
-                               WHERE Number = @roomNumber";
-
-                    using (var cmd = new SqlCommand(sqlRoom, conn, transaction))
-                    {
-                        cmd.Parameters.AddWithValue("@roomNumber", roomNumber);
-                        cmd.ExecuteNonQuery();
-                    }
-
-                    // Confirmar transacción
-                    transaction.Commit();
-
-                    MessageBox.Show("✅ Check-In confirmado. La habitación ahora está ocupada.");
-                }
-                catch (Exception ex)
-                {
-                    transaction?.Rollback();
-                    MessageBox.Show("Error al realizar Check-In: " + ex.Message);
-                }
-                finally
-                {
-                    _db.CloseConnection();
-                }
+                MessageBox.Show("✅ check-in successful.");
+                LoadPendingsBookings();
+                LblBookingInfo.Text = "(none)";
+                _selectedBookingId = 0;
             }
-
-            LoadPendingBookings();
-            _selectedBookingId = 0;
-            LblBookingInfo.Text = "(ninguna)";
+            else
+            {
+                MessageBox.Show("⚠️ Status could not be updated.");
+            }
         }
 
 
@@ -162,7 +83,8 @@ namespace Hotel_C4ta.View.ReceptionistViews.Sections
         {
             BookingsGrid.SelectedItem = null;
             _selectedBookingId = 0;
-            LblBookingInfo.Text = "(ninguna)";
+            LblBookingInfo.Text = "(none)";
         }
+
     }
 }
