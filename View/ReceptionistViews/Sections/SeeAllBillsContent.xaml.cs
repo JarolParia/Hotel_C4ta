@@ -1,5 +1,6 @@
 ﻿using Hotel_C4ta.Controller;
 using Hotel_C4ta.Model;
+using Hotel_C4ta.Utils;
 using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,6 @@ namespace Hotel_C4ta.View.ReceptionistViews.Sections
     /// </summary>
     public partial class SeeAllBillsContent : UserControl
     {
-
         public SeeAllBillsContent()
         {
             InitializeComponent();
@@ -23,47 +23,7 @@ namespace Hotel_C4ta.View.ReceptionistViews.Sections
 
         private void LoadBills()
         {
-            var result = new List<dynamic>();
-
-            using (var conn = DBContext.OpenConnection())
-            {
-                if (conn == null) return;
-
-                try
-                {
-                    string sql = @"
-                        SELECT b.Number, b.IssueDate, b.Total, b.IdBooking,
-                               p.PaymentMethod, p.Amount, p.Dates,
-                               b.PdfFile
-                        FROM Bill b
-                        LEFT JOIN Payment p ON b.Number = p.BillNumber
-                        ORDER BY b.IssueDate DESC";
-
-                    using (var cmd = new SqlCommand(sql, conn))
-                    using (var reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            result.Add(new
-                            {
-                                Number = reader.GetInt32(0),
-                                IssueDate = reader.GetDateTime(1),
-                                Total = reader.GetDecimal(2),
-                                IdBooking = reader.GetInt32(3),
-                                PaymentMethod = reader.IsDBNull(4) ? "Pendiente" : reader.GetString(4),
-                                Amount = reader.IsDBNull(5) ? 0 : reader.GetDecimal(5),
-                                PaymentDate = reader.IsDBNull(6) ? (DateTime?)null : reader.GetDateTime(6),
-                                PdfBytes = reader.IsDBNull(7) ? null : (byte[])reader[7]
-                            });
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error al cargar facturas/pagos: " + ex.Message);
-                }
-            }
-
+            var result = BillsJoinPayments.LoadBillsJoinPayment();
             BillsGrid.ItemsSource = result;
         }
 
@@ -75,7 +35,7 @@ namespace Hotel_C4ta.View.ReceptionistViews.Sections
                 {
                     string tempPath = System.IO.Path.Combine(
                         System.IO.Path.GetTempPath(),
-                        $"Factura_{Guid.NewGuid()}.pdf"
+                        $"Bill_{Guid.NewGuid()}.pdf"
                     );
 
                     System.IO.File.WriteAllBytes(tempPath, pdfBytes);
@@ -83,12 +43,12 @@ namespace Hotel_C4ta.View.ReceptionistViews.Sections
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Error al abrir PDF: {ex.Message}");
+                    MessageBox.Show($"Error opening PDF: {ex.Message}");
                 }
             }
             else
             {
-                MessageBox.Show("No hay PDF disponible para esta factura.");
+                MessageBox.Show("No PDF available for this bill.");
             }
         }
     }

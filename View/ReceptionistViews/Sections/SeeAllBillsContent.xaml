@@ -40,10 +40,10 @@
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Bill Nº" Binding="{Binding BillID}" Width="*"/>
                         <DataGridTextColumn Header="Date" Binding="{Binding IssueDate}" Width="*"/>
-                        <DataGridTextColumn Header="Total" Binding="{Binding Total}" Width="*"/>
+                        <DataGridTextColumn Header="Total Amount" Binding="{Binding TotalAmount}" Width="*"/>
                         <DataGridTextColumn Header="Booking Nº" Binding="{Binding BookingID}" Width="*"/>
                         <DataGridTextColumn Header="Payment Method" Binding="{Binding PaymentMethod}" Width="*"/>
-                        <DataGridTextColumn Header="Total Amount" Binding="{Binding Amount}" Width="*"/>
+                        <DataGridTextColumn Header="Amount" Binding="{Binding Amount}" Width="*"/>
                         <DataGridTextColumn Header="Payment Date" Binding="{Binding PaymentDate}" Width="*"/>
 
                         <!-- Columna para abrir PDF -->
