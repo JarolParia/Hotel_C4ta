@@ -13,17 +13,17 @@ INSERT INTO Administrator (FullName, Email, PasswordHashed, Rol) VALUES
 ('Valentina Rojas', 'valentina.rojas@hotel.com', 'hashed132', 'Admin');
 
 
-INSERT INTO Receptionist (FullName, Email, PasswordHashed, Code) VALUES
-('Camila López', 'camila.lopez@hotel.com', 'rec123', 'R001'),
-('Daniel Vargas', 'daniel.vargas@hotel.com', 'rec124', 'R002'),
-('Sofía Méndez', 'sofia.mendez@hotel.com', 'rec125', 'R003'),
-('Felipe Cruz', 'felipe.cruz@hotel.com', 'rec126', 'R004'),
-('Gabriela Torres', 'gabriela.torres@hotel.com', 'rec127', 'R005'),
-('Ricardo Ortiz', 'ricardo.ortiz@hotel.com', 'rec128', 'R006'),
-('Isabela Herrera', 'isabela.herrera@hotel.com', 'rec129', 'R007'),
-('Mateo Navarro', 'mateo.navarro@hotel.com', 'rec130', 'R008'),
-('Paula Medina', 'paula.medina@hotel.com', 'rec131', 'R009'),
-('Esteban León', 'esteban.leon@hotel.com', 'rec132', 'R010');
+INSERT INTO Receptionist (FullName, Email, PasswordHashed, Rol) VALUES
+('Camila López', 'camila.lopez@hotel.com', 'rec123', 'Recep'),
+('Daniel Vargas', 'daniel.vargas@hotel.com', 'rec124', 'Recep'),
+('Sofía Méndez', 'sofia.mendez@hotel.com', 'rec125', 'Recep'),
+('Felipe Cruz', 'felipe.cruz@hotel.com', 'rec126', 'Recep'),
+('Gabriela Torres', 'gabriela.torres@hotel.com', 'rec127', 'Recep'),
+('Ricardo Ortiz', 'ricardo.ortiz@hotel.com', 'rec128', 'Recep'),
+('Isabela Herrera', 'isabela.herrera@hotel.com', 'rec129', 'Recep'),
+('Mateo Navarro', 'mateo.navarro@hotel.com', 'rec130', 'Recep'),
+('Paula Medina', 'paula.medina@hotel.com', 'rec131', 'Recep'),
+('Esteban León', 'esteban.leon@hotel.com', 'rec132', 'Recep');
 
 
 INSERT INTO Client (DNI, FullName, Email, Phone) VALUES
