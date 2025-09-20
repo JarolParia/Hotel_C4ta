@@ -49,7 +49,7 @@ namespace Hotel_C4ta.Utils
                 {
                     MessageBox.Show("Error loading bills/payments: " + ex.Message);
                 }
-                return null;
+                return result;
             }
         }
     }

@@ -48,9 +48,10 @@ namespace Hotel_C4ta.Controller
 
             try
             {
-                string sql = "INSERT INTO Payment (PaymentDate, Amount, PaymentMethod, BillID)" +
-                    "OUTPUT INSERTED.PaymentID" +
-                    "VALUES (GETDATE(), @amount, @paymentMethod @billId)";
+                string sql = @"
+                    INSERT INTO Payment (PaymentDate, Amount, PaymentMethod, BillID)
+                    OUTPUT INSERTED.PaymentID
+                    VALUES (GETDATE(), @amount, @paymentMethod, @billId)";
                 using var cmd = new SqlCommand(sql, conn);
                 cmd.Parameters.AddWithValue("@amount", amount);
                 cmd.Parameters.AddWithValue("@paymentMethod", paymentMethod);

@@ -81,11 +81,11 @@
                     </StackPanel>
                     <StackPanel Margin="5">
                         <TextBlock Text="Start Date"/>
-                        <DatePicker x:Name="DpStartDate"/>
+                        <DatePicker x:Name="DpStartDate" SelectedDateChanged="DateChanged" />
                     </StackPanel>
                     <StackPanel Margin="5">
                         <TextBlock Text="End Date"/>
-                        <DatePicker x:Name="DpEndDate"/>
+                        <DatePicker x:Name="DpEndDate" SelectedDateChanged="DateChanged" />
                     </StackPanel>
                     <StackPanel Margin="5">
                         <TextBlock Text="Estimated Price"/>

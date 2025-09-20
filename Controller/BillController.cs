@@ -51,9 +51,10 @@ namespace Hotel_C4ta.Controller
 
             try
             {
-                string sql = "INSERT INTO Bill (IssueDate, TotalAmount, BookingID)" +
-                    "OUTPUT INSERTED.BillID" +
-                    "VALUES (GETDATE(), @totalAmount, @bookingId)";
+                string sql = @"
+                    INSERT INTO Bill (IssueDate, TotalAmount, BookingID)
+                    OUTPUT INSERTED.BillID
+                    VALUES (GETDATE(), @totalAmount, @bookingId)";
                 using var cmd = new SqlCommand(sql, conn);
                 cmd.Parameters.AddWithValue("@totalAmount", totalAmount);
                 cmd.Parameters.AddWithValue("@bookingId", bookingId);

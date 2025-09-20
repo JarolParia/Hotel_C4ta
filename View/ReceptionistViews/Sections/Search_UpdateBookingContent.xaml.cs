@@ -1,5 +1,6 @@
 ﻿using Hotel_C4ta.Controller;
 using Hotel_C4ta.Model;
+using Hotel_C4ta.Utils;
 using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
@@ -26,6 +27,8 @@ namespace Hotel_C4ta.View.ReceptionistViews.Sections
     {
         private readonly BookingController _bookingcontroller= new BookingController();
         private int selectedBookingId = -1;
+        private DateTime _originalStartDate;
+        private DateTime _originalEndDate;
         public Search_UpdateBookingContent()
         {
             InitializeComponent();
@@ -54,6 +57,12 @@ namespace Hotel_C4ta.View.ReceptionistViews.Sections
             {
                 selectedBookingId = selectedBooking.BookingID;
 
+
+                // Guardar fechas originales
+                _originalStartDate = selectedBooking.StartDate;
+                _originalEndDate = selectedBooking.EndDate;
+
+
                 // Cargar datos en los campos
                 TxtClient.Text = selectedBooking.ClientDNI;
                 TxtRoom.Text = selectedBooking.RoomID.ToString();
@@ -67,6 +76,45 @@ namespace Hotel_C4ta.View.ReceptionistViews.Sections
                 TxtEstimatedPrice.Text = selectedBooking.EstimatedPrice.ToString("F2");
             }
         }
+        private void DateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (DpStartDate.SelectedDate == null || DpEndDate.SelectedDate == null)
+                return;
+
+            var newStart = DpStartDate.SelectedDate.Value;
+            var newEnd = DpEndDate.SelectedDate.Value;
+
+            // Validaciones con las fechas originales
+            if (newStart < _originalStartDate)
+            {
+                MessageBox.Show("La nueva fecha de inicio no puede ser menor a la original.");
+                DpStartDate.SelectedDate = _originalStartDate;
+                return;
+            }
+
+            if (newEnd < _originalEndDate)
+            {
+                MessageBox.Show("La nueva fecha de fin no puede ser menor a la original.");
+                DpEndDate.SelectedDate = _originalEndDate;
+                return;
+            }
+
+            if (newEnd <= newStart)
+            {
+                MessageBox.Show("La fecha de fin debe ser mayor que la de inicio.");
+                return;
+            }
+
+            //Recalcular el precio estimado
+            // OJO: necesitas el RoomID para calcular, puedes obtenerlo del TxtRoom
+            if (int.TryParse(TxtRoom.Text, out int roomId))
+            {
+                var room = new RoomController().GetRoom(roomId); // usar tu controlador
+                var estimatedPrice = CalculateBookingPrice.Calculate(room, newStart, newEnd);
+                TxtEstimatedPrice.Text = estimatedPrice.ToString("F2");
+            }
+        }
+
 
         private void BtnUpdate_Click(object sender, RoutedEventArgs e)
         {
