@@ -13,6 +13,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Hotel_C4ta.View.AdminViews.Sections;
+using Hotel_C4ta.View;
+
 
 namespace Hotel_C4ta.View.AdminViews
 {
@@ -24,12 +26,12 @@ namespace Hotel_C4ta.View.AdminViews
         public AdminPanel()
         {
             InitializeComponent();
-            ContentArea.Content = new DashboardControl(); //Show dashboard by default
+            ContentArea.Content = new Dashboard(); //Show dashboard by default
         }
 
         private void Dashboard_Click(object sender, RoutedEventArgs e)
         {
-            ContentArea.Content = new DashboardControl();
+            ContentArea.Content = new Dashboard();
         }
 
         private void UsersManagement_Click(object sender, RoutedEventArgs e)

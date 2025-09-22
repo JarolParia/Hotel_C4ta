@@ -13,6 +13,39 @@ namespace Hotel_C4ta.Controller
     {
         public PaymentModel _paymentModel;
 
+        public List<PaymentModel> GetAllPayments()
+        {
+            var payments = new List<PaymentModel>();
+
+            using var conn = DBContext.OpenConnection();
+
+            try
+            {
+                string sql = "SELECT * FROM Payment";
+                using var cmd = new SqlCommand(sql, conn);
+                using var reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    payments.Add(new PaymentModel
+                    {
+                        PaymentID = reader.GetInt32(0),
+                        PaymentDate = reader.GetDateTime(1),
+                        Amount = reader.GetDecimal(2),
+                        PaymentMethod = reader.GetString(3),
+                        BillID = reader.GetInt32(4),
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error loading payments: " + ex.Message);
+            }
+
+            return payments;
+        }
+
+
         public PaymentModel GetPayment(int paymentId)
         {
             using var conn = DBContext.OpenConnection();

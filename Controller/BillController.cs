@@ -16,6 +16,37 @@ namespace Hotel_C4ta.Controller
     {
         public BillModel _billModel;
 
+        public List<BillModel> GetAllBills()
+        {
+            var bills = new List<BillModel>();
+
+            using var conn = DBContext.OpenConnection();
+            try
+            {
+                string sql = "SELECT * FROM Bill";
+                using var cmd = new SqlCommand(sql, conn);
+                using var reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    bills.Add(new BillModel
+                    {
+                        BillID = reader.GetInt32(0),
+                        IssueDate = reader.GetDateTime(1),
+                        TotalAmount = reader.GetDecimal(2),
+                        PdfFile = reader.IsDBNull(3) ? null : (byte[])reader[3],
+                        BookingID = reader.GetInt32(4)
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error loading bills: " + ex.Message);
+            }
+
+            return bills;
+        }
+
+
         public BillModel GetBill(int billId)
         {
             using var conn = DBContext.OpenConnection();

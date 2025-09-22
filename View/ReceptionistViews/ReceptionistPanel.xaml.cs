@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Hotel_C4ta.View.ReceptionistViews.Sections;
+using Hotel_C4ta.View;
 
 namespace Hotel_C4ta.View.ReceptionistViews
 {
@@ -29,12 +30,12 @@ namespace Hotel_C4ta.View.ReceptionistViews
             _receptionistId = receptionistId;
             _receptionistName = receptionistName;
             lblUsuario.Content = _receptionistName;
-            ContentArea.Content = new DashboardContent(); //Show dashboard by default
+            ContentArea.Content = new Dashboard(); //Show dashboard by default
         }
 
         private void Dashboard_Click(object sender, RoutedEventArgs e)
         {
-            ContentArea.Content = new DashboardContent();
+            ContentArea.Content = new Dashboard();
         }
 
         private void RegisterClients_Click(object sender, RoutedEventArgs e)

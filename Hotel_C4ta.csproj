@@ -20,7 +20,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="View\AdminViews\Sections\DashboardControl.xaml.cs" />
     <Compile Include="View\AdminViews\Sections\RoomManagementControl.xaml.cs" />
     <Compile Include="View\AdminViews\Sections\UserManagementControl.xaml.cs" />
   </ItemGroup>
@@ -38,7 +37,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Page Include="View\AdminViews\Sections\DashboardControl.xaml" />
     <Page Include="View\AdminViews\Sections\RoomManagementControl.xaml" />
     <Page Include="View\AdminViews\Sections\UserManagementControl.xaml">
       <Generator>MSBuild:Compile</Generator>
