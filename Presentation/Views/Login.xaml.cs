@@ -9,6 +9,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Hotel_C4ta.Presentation.Views.AdminViews;
 
 namespace Hotel_C4ta.Presentation.Views
 {
@@ -38,9 +39,8 @@ namespace Hotel_C4ta.Presentation.Views
                 {
                     if (user.Rol == "Admin")
                     {
-                        MessageBox.Show("Admin panel is under construction.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
-                        // new AdminPanel(_services, user).Show();
-                        //this.Close();
+                        new AdminPanel(_services, user).Show();
+                        this.Close();
                     }
                     else if (user.Rol == "Recep")
                     {

@@ -33,21 +33,21 @@ namespace Hotel_C4ta
                 }
 
                 var userRepository = new UserRepository(dbContext);
-                //var roomRepository = new RoomRepository(dbContext);
+                var roomRepository = new RoomRepository(dbContext);
                 var userService = new UserService(userRepository);
-                //var roomService = new RoomService(roomRepository);
-                //var clientRepository = new ClientRepository(dbContext);
-                //var clientService = new ClientService(clientRepository);
-                //var billRepository = new BillRepository(dbContext);
-                //var billService = new BillService(billRepository);
-                //var paymentRepository = new PaymentRepository(dbContext);
-                //var paymentService = new PaymentService(paymentRepository);
-                //var bookingRepository = new BookingRepository(dbContext);
-                //var bookingService = new BookingService(bookingRepository);
+                var roomService = new RoomService(roomRepository);
+                var clientRepository = new ClientRepository(dbContext);
+                var clientService = new ClientService(clientRepository);
+                var billRepository = new BillRepository(dbContext);
+                var billService = new BillService(billRepository);
+                var paymentRepository = new PaymentRepository(dbContext);
+                var paymentService = new PaymentService(paymentRepository);
+                var bookingRepository = new BookingRepository(dbContext);
+                var bookingService = new BookingService(bookingRepository);
 
 
 
-                var services = new ServiceManager(userService/* roomService, clientService, billService, paymentService, bookingService*/);
+                var services = new ServiceManager(userService, roomService, clientService, billService, paymentService, bookingService);
 
                 var mainWindow = new MainWindow(services);
                 mainWindow.Show();
