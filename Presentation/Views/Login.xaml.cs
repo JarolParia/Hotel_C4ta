@@ -10,6 +10,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Hotel_C4ta.Presentation.Views.AdminViews;
+using Hotel_C4ta.Presentation.Views.ReceptionistViews;
 
 namespace Hotel_C4ta.Presentation.Views
 {
@@ -44,9 +45,8 @@ namespace Hotel_C4ta.Presentation.Views
                     }
                     else if (user.Rol == "Recep")
                     {
-                        MessageBox.Show("Receptionist panel is under construction.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
-                        //    new ReceptionistPanel(_services, user).Show();
-                        //  this.Close();
+                        new ReceptionistPanel(_services, user).Show();
+                        this.Close();
                     }
                 }
                 else

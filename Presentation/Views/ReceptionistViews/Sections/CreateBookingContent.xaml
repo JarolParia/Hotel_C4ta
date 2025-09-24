@@ -1,0 +1,138 @@
+﻿<UserControl x:Class="Hotel_C4ta.Presentation.Views.ReceptionistViews.Sections.CreateBookingContent"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Hotel_C4ta.Presentation.Views.ReceptionistViews.Sections"
+             Height="Auto" Width="Auto">
+    <Grid Background="White">
+        <Border Background="#F5F5F5" CornerRadius="10" Padding="14">
+            <StackPanel>
+                <!-- Header -->
+                <TextBlock Text="📅 Create Booking"
+                           FontSize="20"
+                           FontWeight="Bold"
+                           Foreground="#4B0082"
+                           Margin="0,0,0,15"/>
+
+                <!-- Client Selection -->
+                <TextBlock Text="Client (DNI)" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                <ComboBox x:Name="CmbClient"
+                          DisplayMemberPath="FullName"
+                          SelectedValuePath="DNI"
+                          Margin="0,0,0,10"
+                          Height="30"/>
+
+                <!-- Receptionist Section -->
+                <TextBlock Text="Receptionist" FontWeight="SemiBold" Margin="0,0,0,5"/>
+
+                <!-- ComboBox para elegir recepcionista (oculto por defecto) -->
+                <ComboBox x:Name="CmbReceptionist"
+                          DisplayMemberPath="FullName"
+                          SelectedValuePath="ID"
+                          Margin="0,0,0,10"
+                          Height="30"
+                          Visibility="Collapsed"/>
+
+                <!-- TextBox para mostrar el recepcionista logueado -->
+                <TextBox x:Name="TxtReceptionistName"
+                         IsReadOnly="True"
+                         BorderThickness="1"
+                         Padding="5"
+                         Height="27"
+                         Margin="0,0,0,10"
+                         FontWeight="SemiBold"
+                         Foreground="#4B0082"
+                         TextWrapping="Wrap"
+                         HorizontalAlignment="Stretch"/>
+
+                <!-- Room Selection -->
+                <TextBlock Text="Room" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                <ComboBox x:Name="CmbRoom"
+                          DisplayMemberPath="RoomID"
+                          SelectedValuePath="RoomID"
+                          Margin="0,0,0,10"
+                          Height="30"
+                          SelectionChanged="RoomChanged"/>
+
+                <!-- Date Selection -->
+                <Grid Margin="0,0,0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="Start Date" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                        <DatePicker x:Name="DpStartDate" 
+                                    SelectedDateChanged="DateChanged"
+                                    Height="Auto"
+                                    HorizontalAlignment="Stretch"
+                                    Width="Auto"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="2">
+                        <TextBlock Text="End Date" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                        <DatePicker x:Name="DpEndDate" 
+                                    SelectedDateChanged="DateChanged" 
+                                    Height="Auto"
+                                    HorizontalAlignment="Stretch"
+                                    Width="Auto"/>
+                    </StackPanel>
+                </Grid>
+
+                <!-- Status and Price -->
+                <Grid Margin="0,10,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="Status" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                        <TextBox x:Name="TxtStatus" 
+                                 Text="Pending" 
+                                 IsReadOnly="True" 
+                                 Height="30"
+                                 Background="#F0F0F0"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="2">
+                        <TextBlock Text="Estimated Price ($)" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                        <TextBox x:Name="TxtEstimatedPrice" 
+                                 IsReadOnly="True" 
+                                 Height="30"
+                                 Background="#F0F0F0"
+                                 FontWeight="Bold"
+                                 Foreground="#4B0082"/>
+                    </StackPanel>
+                </Grid>
+
+                <!-- Buttons -->
+                <StackPanel Orientation="Horizontal" 
+                            HorizontalAlignment="Center" 
+                            Margin="0,20,0,0">
+                    <Button x:Name="BtnSave" 
+                            Content="💾 Save Booking" 
+                            Width="130"
+                            Height="35"
+                            Background="#4B0082" 
+                            Foreground="White" 
+                            Margin="0,0,10,0"
+                            FontWeight="SemiBold"
+                            Click="BtnSave_Click"/>
+                    <Button x:Name="BtnCancel" 
+                            Content="❌ Cancel" 
+                            Width="100"
+                            Height="35"
+                            Background="#B00020" 
+                            Foreground="White"
+                            FontWeight="SemiBold"
+                            Click="BtnCancel_Click"/>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>
