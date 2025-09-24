@@ -133,5 +133,31 @@ namespace Hotel_C4ta.Infrastructure.Repositories
             }
             return bookings;
         }
+
+        public IEnumerable<Booking> GetBookingsByStatuses(params string[] statuses)
+        {
+            var bookings = new List<Booking>();
+
+            using var conn = _context.OpenConnection();
+
+            // Creamos parámetros dinámicos: @s0, @s1, @s2...
+            var parameters = statuses.Select((s, i) => $"@s{i}").ToArray();
+            string sql = $"SELECT * FROM Booking WHERE BookingStatus IN ({string.Join(",", parameters)})";
+
+            using var cmd = new SqlCommand(sql, conn);
+
+            for (int i = 0; i < statuses.Length; i++)
+            {
+                cmd.Parameters.AddWithValue($"@s{i}", statuses[i]);
+            }
+
+            using var reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                bookings.Add(MapBooking(reader));
+            }
+
+            return bookings;
+        }
     }
 }

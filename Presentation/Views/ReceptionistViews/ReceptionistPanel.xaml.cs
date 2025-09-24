@@ -58,12 +58,12 @@ namespace Hotel_C4ta.Presentation.Views.ReceptionistViews
         private void RegisterCheckOut_Click(object sender, RoutedEventArgs e)
         {
 
-            //_navigationService.Navigate(new RegisterCheckoutContent(_services));
+            _navigationService.Navigate(new RegisterCheckoutContent(_services));
         }
 
         private void SeeAllBills_Click(object sender, RoutedEventArgs e)
         {
-           // _navigationService.Navigate(new SeeAllBillsContent(_services));
+            _navigationService.Navigate(new SeeAllBillsContent(_services));
         }
         
 

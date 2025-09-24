@@ -54,5 +54,9 @@ namespace Hotel_C4ta.Application.Services
         {
             return _bookingRepository.ChangeBookingStatus(bookingId, newStatus);
         }
+        public IEnumerable<Booking> GetPendingAndConfirmedBookings()
+        {
+            return _bookingRepository.GetBookingsByStatuses("Pending", "Confirmed");
+        }
     }
 }

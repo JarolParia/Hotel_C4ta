@@ -25,8 +25,8 @@ namespace Hotel_C4ta.Presentation.Views.ReceptionistViews.Sections
         {
             try
             {
-                var pendings = _serviceManager.BookingService.GetPendingBookings();
-                BookingsGrid.ItemsSource = pendings;
+                var bookings = _serviceManager.BookingService.GetPendingAndConfirmedBookings();
+                BookingsGrid.ItemsSource = bookings;
             }
             catch (Exception ex)
             {

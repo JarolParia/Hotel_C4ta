@@ -67,12 +67,12 @@
                 <UniformGrid Columns="2" Rows="4" Margin="0,0,0,10">
                     <StackPanel Margin="5">
                         <TextBlock Text="Client (DNI)" IsEnabled="False"/>
-                        <TextBox x:Name="TxtClient"/>
+                        <TextBox x:Name="TxtClient" IsEnabled="False"/>
                     </StackPanel>
 
                     <StackPanel Margin="5">
                         <TextBlock Text="Room" IsEnabled="False"/>
-                        <TextBox x:Name="TxtRoom"/>
+                        <TextBox x:Name="TxtRoom" IsEnabled="False"/>
                     </StackPanel>
                     <StackPanel Margin="5">
                         <TextBlock Text="Status"/>

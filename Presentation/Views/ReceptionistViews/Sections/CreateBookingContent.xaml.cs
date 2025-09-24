@@ -137,12 +137,20 @@ namespace Hotel_C4ta.Presentation.Views.ReceptionistViews.Sections
                 {
                     _serviceManager.RoomService.UpdateStatusRoom(room.RoomID, "Occupied");
 
+                    // ✅ Success alert
+                    MessageBox.Show("Booking created successfully.",
+                                    "Booking",
+                                    MessageBoxButton.OK,
+                                    MessageBoxImage.Information);
 
                     ClearForm();
                 }
                 else
                 {
-                    MessageBox.Show("❌ Error saving booking.");
+                    MessageBox.Show("❌ Error saving booking.",
+                                    "Booking Error",
+                                    MessageBoxButton.OK,
+                                    MessageBoxImage.Error);
                 }
             }
             catch (Exception ex)

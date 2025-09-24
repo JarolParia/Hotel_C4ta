@@ -16,5 +16,6 @@ namespace Hotel_C4ta.Domain.Repositories
         bool UpdateBooking(int bookingId, DateTime start, DateTime end, decimal price, string status);
         bool SoftDeleteBooking(int bookingId);
         bool ChangeBookingStatus(int bookingId, string newStatus);
+        IEnumerable<Booking> GetBookingsByStatuses(params string[] statuses);
     }
 }

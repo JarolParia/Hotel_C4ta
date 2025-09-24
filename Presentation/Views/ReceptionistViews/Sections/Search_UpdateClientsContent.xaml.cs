@@ -2,7 +2,6 @@
 using Hotel_C4ta.Domain.Entities;
 using System.Windows;
 using System.Windows.Controls;
-using System.Xml.Linq;
 
 namespace Hotel_C4ta.Presentation.Views.ReceptionistViews.Sections
 {
@@ -40,13 +39,13 @@ namespace Hotel_C4ta.Presentation.Views.ReceptionistViews.Sections
         {
             if (string.IsNullOrWhiteSpace(_selectedDni))
             {
-                MessageBox.Show("Select a client.");
+                MessageBox.Show("Please select a client.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
             if (TxtDni.Text != _selectedDni)
             {
-                MessageBox.Show("You don't have permission to update DNI's.");
+                MessageBox.Show("You are not allowed to update the DNI.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
@@ -60,21 +59,52 @@ namespace Hotel_C4ta.Presentation.Views.ReceptionistViews.Sections
 
             _clientService.UpdateClient(updatedClient);
             LoadClients();
+
+            // 🔔 Success alert
+            MessageBox.Show("Client updated successfully.", "Update", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private void BtnDelete_Click(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrWhiteSpace(_selectedDni))
             {
-                MessageBox.Show("Select a client.");
+                MessageBox.Show("Please select a client.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
-            var confirm = MessageBox.Show("Delete this Client?", "Confirm", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            var confirm = MessageBox.Show("Are you sure you want to delete this client?",
+                                          "Confirm",
+                                          MessageBoxButton.YesNo,
+                                          MessageBoxImage.Question);
             if (confirm != MessageBoxResult.Yes) return;
 
-            _clientService.DeleteClient(_selectedDni);
-            LoadClients();
+            try
+            {
+                _clientService.DeleteClient(_selectedDni);
+                LoadClients();
+
+                // ✅ Success alert
+                MessageBox.Show("Client deleted successfully.", "Delete", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                // 🔍 Verificamos si es un error de restricción de clave foránea
+                if (ex.InnerException != null && ex.InnerException.Message.Contains("FOREIGN KEY"))
+                {
+                    MessageBox.Show("This client cannot be deleted because it is related to other records.",
+                                    "Delete Error",
+                                    MessageBoxButton.OK,
+                                    MessageBoxImage.Error);
+                }
+                else
+                {
+                    // ⚠️ Para otros errores genéricos
+                    MessageBox.Show($"An error occurred while deleting the client:\n{ex.Message}",
+                                    "Error",
+                                    MessageBoxButton.OK,
+                                    MessageBoxImage.Error);
+                }
+            }
         }
     }
 }
