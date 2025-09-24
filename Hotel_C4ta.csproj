@@ -9,23 +9,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="View\AdminViews\Sections\**" />
-    <EmbeddedResource Remove="View\AdminViews\Sections\**" />
-    <None Remove="View\AdminViews\Sections\**" />
-    <Page Remove="View\AdminViews\Sections\**" />
+    <None Remove="Presentation\Resources\LogoHotel.jpg" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Resources\LogoHotel.jpg" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Include="View\AdminViews\Sections\RoomManagementControl.xaml.cs" />
-    <Compile Include="View\AdminViews\Sections\UserManagementControl.xaml.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="Resources\LogoHotel.jpg">
+    <Content Include="Presentation\Resources\LogoHotel.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -34,13 +22,6 @@
     <PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.1" />
     <PackageReference Include="PDFsharp" Version="6.2.1" />
     <PackageReference Include="System.Drawing.Common" Version="9.0.8" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Include="View\AdminViews\Sections\RoomManagementControl.xaml" />
-    <Page Include="View\AdminViews\Sections\UserManagementControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
 
 </Project>
