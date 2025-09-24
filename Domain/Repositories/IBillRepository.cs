@@ -7,12 +7,14 @@ using System.Threading.Tasks;
 
 namespace Hotel_C4ta.Domain.Repositories
 {
+    /// Repository interface for managing bill persistence operations.
+    /// without specifying the implementation (handled in Infrastructure).
     public interface IBillRepository
     {
-        IEnumerable<Bill> GetAllBills();
-        Bill? GetBill(int billId);
-        int RegisterBill(decimal totalAmount, int bookingId);
-        bool SavePDF(int billId, byte[] pdfBytes);
-        IEnumerable<dynamic> GetBillsWithPayments();
+        IEnumerable<Bill> GetAllBills(); /// Retrieves all bills from the data source.
+        Bill? GetBill(int billId); /// The matching bill if found; otherwise, null.
+        int RegisterBill(decimal totalAmount, int bookingId); /// The unique identifier (ID) of the newly created bill.
+        bool SavePDF(int billId, byte[] pdfBytes); /// The file contain invoice details or a receipt.
+        IEnumerable<dynamic> GetBillsWithPayments(); /// A collection combining bills and their associated payments.
     }
 }

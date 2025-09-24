@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 
 namespace Hotel_C4ta.Application.Services
 {
+    /// Service layer for handling operations related to bills. <summary>
+    /// Service layer for handling operations related to bills.This class coordinates business logic and delegates persistence to the repository layer.
     public class BillService
     {
         private readonly IBillRepository _billRepository;
@@ -17,16 +19,19 @@ namespace Hotel_C4ta.Application.Services
             _billRepository = billRepository;
         }
 
+        // Get all bills from the repository
         public IEnumerable<Bill> GetAllBills()
         {
             return _billRepository.GetAllBills();
         }
 
+        // Get a single bill by its ID
         public Bill? GetBill(int billId)
         {
             return _billRepository.GetBill(billId);
         }
 
+        // Register a new bill, only if the total amount is greater than zero
         public int RegisterBill(decimal totalAmount, int bookingId)
         {
             if (totalAmount <= 0)
@@ -34,10 +39,14 @@ namespace Hotel_C4ta.Application.Services
 
             return _billRepository.RegisterBill(totalAmount, bookingId);
         }
+
+        // Get all bills along with their related payments
         public IEnumerable<dynamic> GetBillsWithPayments()
         {
             return _billRepository.GetBillsWithPayments();
         }
+
+        // Save a PDF file for a specific bill
         public bool SavePDF(int billId, byte[] pdfBytes)
         {
             if (pdfBytes == null || pdfBytes.Length == 0)

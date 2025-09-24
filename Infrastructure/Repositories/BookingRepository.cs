@@ -10,15 +10,19 @@ using System.Threading.Tasks;
 
 namespace Hotel_C4ta.Infrastructure.Repositories
 {
+    /// Repository class for managing bookings in the database.
+    /// Handles CRUD operations and queries related to the Booking table.
     public class BookingRepository : IBookingRepository
     {
-        private readonly DBContext _context;
+        private readonly DBContext _context; /// Database context for opening connections.
 
         public BookingRepository(DBContext context)
         {
             _context = context;
         }
 
+        /// Retrieves a single booking by its unique ID.
+        /// Returns null if no booking is found.
         public Booking? GetBooking(int bookingId)
         {
             using var conn = _context.OpenConnection();
@@ -34,16 +38,20 @@ namespace Hotel_C4ta.Infrastructure.Repositories
             return null;
         }
 
+        /// Retrieves all bookings with "Pending" status.
         public IEnumerable<Booking> GetPendingBookings()
         {
             return GetBookingsByStatus("Pending");
         }
 
+        /// Retrieves all bookings with "CheckedIn" status.
         public IEnumerable<Booking> GetCheckedInBookings()
         {
             return GetBookingsByStatus("CheckedIn");
         }
 
+        /// Inserts a new booking into the database.
+        /// Returns true if at least one row was inserted.
         public bool RegisterBooking(DateTime start, DateTime end, string status, decimal price, string dni, int recid, int roomid)
         {
             using var conn = _context.OpenConnection();
@@ -61,6 +69,8 @@ namespace Hotel_C4ta.Infrastructure.Repositories
             return cmd.ExecuteNonQuery() > 0;
         }
 
+        /// Updates an existing booking with new details (dates, price, status).
+        /// Returns true if at least one row was updated.
         public bool UpdateBooking(int bookingId, DateTime start, DateTime end, decimal price, string status)
         {
             using var conn = _context.OpenConnection();
@@ -81,6 +91,7 @@ namespace Hotel_C4ta.Infrastructure.Repositories
             return cmd.ExecuteNonQuery() > 0;
         }
 
+        /// Performs a "soft delete" by marking a booking as "Cancelled" instead of physically removing it from the database.
         public bool SoftDeleteBooking(int bookingId)
         {
             using var conn = _context.OpenConnection();
@@ -91,6 +102,7 @@ namespace Hotel_C4ta.Infrastructure.Repositories
             return cmd.ExecuteNonQuery() > 0;
         }
 
+        /// Performs a "soft delete" by marking a booking as "Cancelled" instead of physically removing it from the database.
         public bool ChangeBookingStatus(int bookingId, string newStatus)
         {
             using var conn = _context.OpenConnection();
@@ -102,7 +114,7 @@ namespace Hotel_C4ta.Infrastructure.Repositories
             return cmd.ExecuteNonQuery() > 0;
         }
 
-        // 🔹 Helper
+        // Helper method to convert a SqlDataReader row into a Booking object.
         private Booking MapBooking(SqlDataReader reader)
         {
             return new Booking
@@ -118,6 +130,7 @@ namespace Hotel_C4ta.Infrastructure.Repositories
             };
         }
 
+        /// Retrieves bookings filtered by a specific status
         private IEnumerable<Booking> GetBookingsByStatus(string status)
         {
             var bookings = new List<Booking>();
@@ -134,6 +147,7 @@ namespace Hotel_C4ta.Infrastructure.Repositories
             return bookings;
         }
 
+        /// Retrieves bookings that match any of the provided statuses.
         public IEnumerable<Booking> GetBookingsByStatuses(params string[] statuses)
         {
             var bookings = new List<Booking>();

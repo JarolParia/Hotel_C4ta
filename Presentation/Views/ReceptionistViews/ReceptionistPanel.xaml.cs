@@ -22,8 +22,8 @@ namespace Hotel_C4ta.Presentation.Views.ReceptionistViews
             _services = service;
             _loggedUser = loggedUser;
             _navigationService = new NavigationService(ContentArea);
-            TxtReceptionistName.Text = _loggedUser.FullName;
-            _navigationService.Navigate(new DashBoard(_services));
+            TxtReceptionistName.Text = _loggedUser.FullName; /// Show receptionist's name in the UI (likely a TextBlock or Label)
+            _navigationService.Navigate(new DashBoard(_services)); /// Load the dashboard view as the default content
         }
         private void DashBoard_Click(object sender, RoutedEventArgs e)
         {
@@ -37,7 +37,7 @@ namespace Hotel_C4ta.Presentation.Views.ReceptionistViews
         
         private void Search_UpdateClients_Click(object sender, RoutedEventArgs e)
         {
-            _navigationService.Navigate(new Search_UpdateClientsContent(_services.ClientService));
+            _navigationService.Navigate(new Search_UpdateClientsContent(_services.ClientService)); /// Navigate to search/update clients view
         }
 
         private void CreateBooking_Click(object sender, RoutedEventArgs e)
@@ -69,7 +69,7 @@ namespace Hotel_C4ta.Presentation.Views.ReceptionistViews
 
         private void LogOut_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            this.Close(); /// Close the receptionist panel (logs out the user)
         }
     }
 }

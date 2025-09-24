@@ -16,31 +16,47 @@ using System.Windows.Shapes;
 
 namespace Hotel_C4ta.Presentation.Views
 {
-    /// <summary>
-    /// Lógica de interacción para DashBoard.xaml
-    /// </summary>
+    /// This UserControl displays general statistics and recent data for the hotel system.
     public partial class DashBoard : UserControl
     {
         private readonly ServiceManager _services;
+        
+        /// Initializes the UI and immediately loads the dashboard data.
         public DashBoard(ServiceManager serviceManager)
         {
             InitializeComponent();
             _services = serviceManager;
-            LoadData();
+            LoadData(); /// Load data as soon as the dashboard is created
         }
+
+        /// Loads statistics and recent activity into the dashboard
         private void LoadData()
         {
+            /// Count total clients
             int totalClientes = _services.ClientService.GetAllClients().Count;
+
+            /// Count total rooms
             int totalHabitaciones = _services.RoomService.GetAllRooms().Count;
+
+            /// Count active bookings (checked in)
             int reservasActivas = _services.BookingService.GetCheckedInBookings().Count(b => b.BookingStatus == "CheckedIn");
+
+            /// Count pending bookings
             int reservasPendientes = _services.BookingService.GetPendingBookings().Count(b => b.BookingStatus == "Pending");
+
+            /// Count occupied rooms
             int habitacionesOcupadas = _services.RoomService.GetAllRooms().Count(r => r.RoomStatus == "Occupied");
+
+            /// Calculate available rooms
             int habitacionesDisponibles = totalHabitaciones - habitacionesOcupadas;
+
+            /// Calculate total income (sum of all bills)
             decimal ingresosTotales = _services.BillService.GetAllBills().Sum(b => b.TotalAmount);
 
+            /// Get the 5 most recent payments
             var pagosRecientes = _services.PaymentService.GetAllPayments()
-                .OrderByDescending(p => p.PaymentDate)
-                .Take(5)
+                .OrderByDescending(p => p.PaymentDate) /// Order by most recent
+                .Take(5) /// Only take top 5
                 .Select(p => new
                 {
                     PaymentDate = p.PaymentDate.ToShortDateString(),

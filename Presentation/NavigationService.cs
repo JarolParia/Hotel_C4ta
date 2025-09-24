@@ -7,6 +7,9 @@ using System.Windows.Controls;
 
 namespace Hotel_C4ta.Presentation
 {
+    /// This class is responsible for handling navigation inside the application.
+    /// Instead of opening new windows, it allows switching between UserControls
+    /// inside a single container (ContentControl).
     public class NavigationService
     {
         private readonly ContentControl _contentControl;

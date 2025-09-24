@@ -10,18 +10,22 @@ using System.Threading.Tasks;
 
 namespace Hotel_C4ta.Infrastructure.Repositories
 {
+    /// Responsible for CRUD operations for Users (Administrators and Receptionists)
     internal class UserRepository : IUserRepository
     {
-        private readonly DBContext _dbContext;
+        private readonly DBContext _dbContext; /// Database context used to open connections
 
         public UserRepository(DBContext dbContext)
         {
             _dbContext = dbContext;
         }
 
+        /// Retrieves a user by email and password (login authentication)
+        /// Looks into both Administrator and Receptionist tables
         public User? GetByCredentials(string email, string password)
         {
             using var conn = _dbContext.OpenConnection();
+            /// SQL query checks both tables with UNION
             string query = @"
                 SELECT ID, FullName, Email, PasswordHashed, Rol 
                 FROM Administrator 
@@ -48,14 +52,16 @@ namespace Hotel_C4ta.Infrastructure.Repositories
                 };
             }
 
-            return null;
+            return null; /// No user found
         }
 
+        /// Retrieves all users from both Administrator and Receptionist tables
         public IEnumerable<User> GetAll()
         {
             var users = new List<User>();
             using var conn = _dbContext.OpenConnection();
 
+            /// SQL query retrieves all users (Admin + Receptionist)
             string sql = @"
                 SELECT ID, FullName, Email, PasswordHashed, Rol FROM Administrator
                 UNION
@@ -79,6 +85,7 @@ namespace Hotel_C4ta.Infrastructure.Repositories
             return users;
         }
 
+        /// Adds a new user into the correct table depending on their role
         public void Add(User user)
         {
             using var conn = _dbContext.OpenConnection();
@@ -92,9 +99,12 @@ namespace Hotel_C4ta.Infrastructure.Repositories
             cmd.Parameters.AddWithValue("@Rol", user.Rol);
             cmd.ExecuteNonQuery();
         }
+
+        /// Updates an existing user in the database
         public void Update(User user)
         {
             using var conn = _dbContext.OpenConnection();
+            /// Choose the correct table based on the role
             string table = user.Rol == "Admin" ? "Administrator" : "Receptionist";
 
             string sql = $"UPDATE {table} SET FullName=@Name, Email=@Email, PasswordHashed=@Pass, Rol=@Rol WHERE ID=@Id";
@@ -107,15 +117,18 @@ namespace Hotel_C4ta.Infrastructure.Repositories
             cmd.ExecuteNonQuery();
         }
 
+        /// Deletes a user from the database
         public void Delete(User user)
         {
             using var conn = _dbContext.OpenConnection();
+
+            /// Choose the table depending on the role
             string table = user.Rol == "Admin" ? "Administrator" : "Receptionist";
 
             string sql = $"DELETE FROM {table} WHERE ID=@Id";
             using var cmd = new SqlCommand(sql, conn);
             cmd.Parameters.AddWithValue("@Id", user.ID);
-            cmd.ExecuteNonQuery();
+            cmd.ExecuteNonQuery(); /// Execute the delete
         }
 
 

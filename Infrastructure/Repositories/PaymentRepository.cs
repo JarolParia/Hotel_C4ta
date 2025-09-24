@@ -7,23 +7,25 @@ using Microsoft.Data.SqlClient;
 
 namespace Hotel_C4ta.Infrastructure.Repositories
 {
+    /// Repository class responsible for managing Payment records in the database.
     public class PaymentRepository : IPaymentRepository
     {
-        private readonly DBContext _dbContext;
+        private readonly DBContext _dbContext; /// Database context used to open SQL connections.
 
         public PaymentRepository(DBContext dbContext)
         {
             _dbContext = dbContext;
         }
 
-        public IEnumerable<Payment> GetAllPayments()
+        public IEnumerable<Payment> GetAllPayments() /// Retrieves all payments stored in the Payment table.
         {
             var payments = new List<Payment>();
-            using var conn = _dbContext.OpenConnection();
+            using var conn = _dbContext.OpenConnection(); /// Open a database connection
 
+            /// SQL query to fetch all payments
             string sql = "SELECT PaymentID, PaymentDate, Amount, PaymentMethod, BillID FROM Payment";
             using var cmd = new SqlCommand(sql, conn);
-            using var reader = cmd.ExecuteReader();
+            using var reader = cmd.ExecuteReader(); /// Execute the query and get a reader for the result set
 
             while (reader.Read())
             {
@@ -37,13 +39,16 @@ namespace Hotel_C4ta.Infrastructure.Repositories
                 });
             }
 
-            return payments;
+            return payments; /// Return the list of payments
         }
 
+        /// Retrieves a single payment by its PaymentID.
+        /// Returns null if no record is found.
         public Payment? GetPayment(int paymentId)
         {
             using var conn = _dbContext.OpenConnection();
 
+            // SQL query with parameter to fetch a specific payment
             string sql = "SELECT PaymentID, PaymentDate, Amount, PaymentMethod, BillID FROM Payment WHERE PaymentID=@PaymentID";
             using var cmd = new SqlCommand(sql, conn);
             cmd.Parameters.AddWithValue("@PaymentID", paymentId);
@@ -61,9 +66,11 @@ namespace Hotel_C4ta.Infrastructure.Repositories
                 };
             }
 
-            return null;
+            return null; /// Return null if no matching record
         }
 
+        // Registers a new payment into the Payment table.
+        // Returns the newly generated PaymentID.
         public int RegisterPayment(decimal amount, string paymentMethod, int billId)
         {
             using var conn = _dbContext.OpenConnection();
@@ -74,11 +81,12 @@ namespace Hotel_C4ta.Infrastructure.Repositories
               VALUES (GETDATE(), @Amount, @PaymentMethod, @BillID)";
 
             using var cmd = new SqlCommand(sql, conn);
+            /// Add parameters for the new payment
             cmd.Parameters.AddWithValue("@Amount", amount);
             cmd.Parameters.AddWithValue("@PaymentMethod", paymentMethod);
             cmd.Parameters.AddWithValue("@BillID", billId);
 
-            return (int)cmd.ExecuteScalar();
+            return (int)cmd.ExecuteScalar(); /// Execute the insert and return the new PaymentID
         }
     }
 }

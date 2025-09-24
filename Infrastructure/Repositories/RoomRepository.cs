@@ -12,6 +12,8 @@ using System.Windows;
 
 namespace Hotel_C4ta.Infrastructure.Repositories
 {
+    /// Repository implementation for Room entity.
+    /// Handles all CRUD operations (Create, Read, Update, Delete) with the database.
     internal class RoomRepository : IRoomRepository
     {
         private readonly DBContext _dbContext;
@@ -21,6 +23,7 @@ namespace Hotel_C4ta.Infrastructure.Repositories
             _dbContext = dbContext;
         }
 
+        /// GET a single room by ID
         public Room GetRoom(int roomId)
         {
             using var conn = _dbContext.OpenConnection();
@@ -48,7 +51,7 @@ namespace Hotel_C4ta.Infrastructure.Repositories
             {
                 MessageBox.Show("Error loading room: " + ex.Message);
             }
-            return null;
+            return null; /// Return null if not found or error
         }
 
         public List<Room> GetAllRooms()
@@ -81,6 +84,7 @@ namespace Hotel_C4ta.Infrastructure.Repositories
             return rooms;
         }
 
+        /// GET all available rooms
         public List<Room> GetAllAvailableRooms()
         {
             using var conn = _dbContext.OpenConnection();
@@ -111,6 +115,7 @@ namespace Hotel_C4ta.Infrastructure.Repositories
             return rooms;
         }
 
+        /// CREATE a new room
         public void CreateRoom(int roomId, int roomFloor, string roomStatus, string roomType, int capacity, decimal basePrice)
         {
             using var conn = _dbContext.OpenConnection();
@@ -135,6 +140,7 @@ namespace Hotel_C4ta.Infrastructure.Repositories
             }
         }
 
+        /// UPDATE room info (status, capacity, base price)
         public void UpdateRoom(int roomId, string roomStatus, int capacity, decimal basePrice)
         {
             using var conn = _dbContext.OpenConnection();
@@ -157,6 +163,7 @@ namespace Hotel_C4ta.Infrastructure.Repositories
             }
         }
 
+        /// UPDATE only the status of a room
         public void UpdateStatusRoom(int roomId, string status)
         {
             using var conn = _dbContext.OpenConnection();
@@ -176,6 +183,7 @@ namespace Hotel_C4ta.Infrastructure.Repositories
             }
         }
 
+        /// DELETE a room
         public void DeleteRoom(int roomId)
         {
             using var conn = _dbContext.OpenConnection();
@@ -194,6 +202,7 @@ namespace Hotel_C4ta.Infrastructure.Repositories
             }
         }
 
+        /// CHECK if a room exists (returns true or false)
         public bool RoomExists(int roomId)
         {
             using var conn = _dbContext.OpenConnection();

@@ -19,15 +19,16 @@ namespace Hotel_C4ta.Infrastructure.Repositories
             _context = context;
         }
 
+        /// Retrieves all bills from the database.
         public IEnumerable<Bill> GetAllBills()
         {
-            var bills = new List<Bill>();
+            var bills = new List<Bill>(); /// A list to store all the bills
 
-            using var conn = _context.OpenConnection();
+            using var conn = _context.OpenConnection(); /// Open SQL connection
             string sql = "SELECT * FROM Bill";
 
-            using var cmd = new SqlCommand(sql, conn);
-            using var reader = cmd.ExecuteReader();
+            using var cmd = new SqlCommand(sql, conn); /// Create SQL command
+            using var reader = cmd.ExecuteReader(); /// Execute and get results
 
             while (reader.Read())
             {
@@ -41,12 +42,13 @@ namespace Hotel_C4ta.Infrastructure.Repositories
                 });
             }
 
-            return bills;
+            return bills; /// Return the complete list
         }
 
+        // Retrieves a specific bill by its ID, or null if not found
         public Bill? GetBill(int billId)
         {
-            using var conn = _context.OpenConnection();
+            using var conn = _context.OpenConnection(); // Open connection
             string sql = "SELECT * FROM Bill WHERE BillID = @billId";
 
             using var cmd = new SqlCommand(sql, conn);
@@ -65,12 +67,13 @@ namespace Hotel_C4ta.Infrastructure.Repositories
                 };
             }
 
-            return null;
+            return null; /// If no row found, return null
         }
 
+        /// Registers a new bill in the database and returns the new BillID
         public int RegisterBill(decimal totalAmount, int bookingId)
         {
-            using var conn = _context.OpenConnection();
+            using var conn = _context.OpenConnection(); /// Open SQL connection
             string sql = @"
              INSERT INTO Bill (IssueDate, TotalAmount, BookingID)
              OUTPUT INSERTED.BillID
@@ -80,14 +83,16 @@ namespace Hotel_C4ta.Infrastructure.Repositories
             cmd.Parameters.AddWithValue("@totalAmount", totalAmount);
             cmd.Parameters.AddWithValue("@bookingId", bookingId);
 
-            return (int)cmd.ExecuteScalar();
+            return (int)cmd.ExecuteScalar(); /// Execute and return the new BillID
         }
 
+        /// Retrieves bills with related payment information (if available)
         public IEnumerable<dynamic> GetBillsWithPayments()
         {
             var result = new List<dynamic>();
-            using var conn = _context.OpenConnection();
+            using var conn = _context.OpenConnection(); /// Open connection
 
+            /// SQL query joins Bill and Payment tables (LEFT JOIN keeps bills even without payments)
             try
             {
                 string sqlJoin = @"
@@ -121,8 +126,10 @@ namespace Hotel_C4ta.Infrastructure.Repositories
                 throw new Exception($"Error loading bills with payments: {ex.Message}", ex);
             }
 
-            return result;
+            return result; /// Return the list
         }
+
+        /// Saves a PDF file for a bill 
         public bool SavePDF(int billId, byte[] pdfBytes)
         {
             using var conn = _context.OpenConnection();
